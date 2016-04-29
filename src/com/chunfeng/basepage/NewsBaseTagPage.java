@@ -7,6 +7,7 @@ import com.example.test.R;
 
 import android.content.Context;
 import android.view.Gravity;
+import android.view.View;
 import android.widget.TextView;
 
 /**
@@ -33,6 +34,7 @@ public class NewsBaseTagPage extends BaseTagPage{
 		tv.setGravity(Gravity.CENTER);
 		
 		flLayout.addView(tv);
+		btnMenuButton.setVisibility(View.VISIBLE);
 	}
 
 }

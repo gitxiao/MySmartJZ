@@ -4,12 +4,13 @@
 package com.chunfeng.view;
 
 import android.annotation.SuppressLint;
-import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
+import com.chunfeng.zhjz.activity.MainActivity;
 
 /**
  * @author Cfrjkj
@@ -22,27 +23,27 @@ import android.view.ViewGroup;
 @SuppressLint("NewApi")
 public abstract class BaseFragment extends Fragment {
 
-//	public MainActivity mainActivity;
-	public Context context;
+	private MainActivity mainActivity;
+//	public Context mainActivity;
 	
 	/**
 	 * @return the context
 	 */
-	public Context getContext() {
-		return context;
+	public MainActivity getConainerActivity() {
+		return mainActivity;
 	}
-
-	/**
-	 * @param context the context to set
-	 */
-	public void setContext(Context context) {
-		this.context = context;
-	}
+//
+//	/**
+//	 * @param context the context to set
+//	 */
+//	public void setContext(Context context) {
+//		this.mainActivity = context;
+//	}
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		context = getActivity();
+		mainActivity = (MainActivity) getActivity();
 //		context = getApplicationContext();
 	}
 

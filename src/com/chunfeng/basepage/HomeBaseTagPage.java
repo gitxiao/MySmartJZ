@@ -36,5 +36,7 @@ public class HomeBaseTagPage extends BaseTagPage{
 		tv.setGravity(Gravity.CENTER);
 		
 		flLayout.addView(tv);
+		
+		btnMenuButton.setVisibility(View.GONE);
 	}
 }

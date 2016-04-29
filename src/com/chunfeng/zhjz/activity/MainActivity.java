@@ -124,7 +124,7 @@ public class MainActivity extends SlidingFragmentActivity{
 //		menu.setBehindOffset(DensityUtil.dip2px(this, 300));
 		leftMenu.setBehindOffset(700);
 		
-//		leftMenu.setSlidingEnabled(false);
+		leftMenu.setSlidingEnabled(false);			//开始默认在主界面, 不能划出左侧菜单
 		
 //        menu.setFadeDegree(0.35f);
 //        menu.attachToActivity(this, SlidingMenu.SLIDING_CONTENT);

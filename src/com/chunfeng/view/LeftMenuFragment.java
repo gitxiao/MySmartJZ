@@ -22,7 +22,7 @@ public class LeftMenuFragment extends BaseFragment {
 	 */
 	@Override
 	public View initView() {
-		TextView textView = new TextView(context);
+		TextView textView = new TextView(super.getConainerActivity());
 		textView.setText("左侧菜单");
 //		textView.setTextColor(#000000);
 		textView.setTextSize(25);

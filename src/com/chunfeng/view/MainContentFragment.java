@@ -37,16 +37,22 @@ import com.lidroid.xutils.view.annotation.ViewInject;
  * @当前版本: $Rev$
  */
 public class MainContentFragment extends BaseFragment {
-
+	
+	private List<BaseTagPage> pages = new ArrayList<BaseTagPage>();
+	
 	@ViewInject(R.id.vp_pages_main)  
 	private ViewPager viewPager;	//使用了XUtils开源插件,这里的注解已经初始化了viewPager, 不需要再用findViewById去获取控件对象.
 	
 	@ViewInject(R.id.radioGroup_main)
-	private RadioGroup rGroup;
+	private RadioGroup rGroup;  	//单选按钮
+	
+	@ViewInject(R.id.mainContentView)
+	private ViewGroup mainViewGroup;
+	
 	@Override
 	public View initView() {
 		
-		View root = View.inflate(context, R.layout.activity_main_fm_content_view, null);
+		View root = View.inflate(getConainerActivity(), R.layout.activity_main_fm_content_view, null);
 		
 		//动态注入  使用xutils开源框架
 		ViewUtils.inject(this, root);
@@ -65,27 +71,35 @@ public class MainContentFragment extends BaseFragment {
 			@Override
 			public void onCheckedChanged(RadioGroup radioGroup, int id) {
 				System.out.println("onCheckedChanged====================================================arg1 =" + id);
+				int pageIndex = -1;
 				switch (id) {
 				case R.id.mainBtnHome:
-					System.out.println("按下了" + context.getString(R.string.mainBtn1));
+					pageIndex = 0;
+					System.out.println("按下了" + getConainerActivity().getString(R.string.mainBtn1));
 					break;
 				case R.id.mainBtnNews:
-					System.out.println("按下了" + context.getString(R.string.mainBtn2));
+					pageIndex = 1;
+					System.out.println("按下了" + getConainerActivity().getString(R.string.mainBtn2));
 					break;
 				case R.id.mainBtnSmart:
-					System.out.println("按下了" + context.getString(R.string.mainBtn3));
+					pageIndex = 2;
+					System.out.println("按下了" + getConainerActivity().getString(R.string.mainBtn3));
 					break;
 				case R.id.mainBtnGov:
-					System.out.println("按下了" + context.getString(R.string.mainBtn4));
+					pageIndex = 3;
+					System.out.println("按下了" + getConainerActivity().getString(R.string.mainBtn4));
 					break;
 				case R.id.mainBtnSet:
-					System.out.println("按下了" + context.getString(R.string.mainBtn5));
+					pageIndex = 4;
+					System.out.println("按下了" + getConainerActivity().getString(R.string.mainBtn5));
 					break;
 
 				default:
 					break;
 				}
+				switchPage(pageIndex);
 			}
+
 		});
 		
 		rGroup.addOnAttachStateChangeListener(new OnAttachStateChangeListener() {
@@ -101,14 +115,38 @@ public class MainContentFragment extends BaseFragment {
 			}
 		});
 	}
+
+	/**
+	 * 选中的页面显示
+	 * @param pageIndex
+	 */
+	private void switchPage(int pageIndex) {
+//		View view1 = mainViewGroup.getRootView();
+//		mainViewGroup.removeView(view1);
+//		BaseTagPage btp = pages.get(pageIndex);		//取页面要从pageList中取, 而不是ViewPager中
+//		View view2 = btp.getRoot();
+//		mainViewGroup.addView(view2); 				//不能用addView,addView是在原view基础上添加, 应该是替换,但是没有对应的函数...
+		
+//		viewPager.setCurrentItem(pageIndex, false);
+		viewPager.setCurrentItem(pageIndex);
+		
+		
+		//如果是第一页或最后一页, 不让左侧菜单显示出来
+		if(pageIndex == 0 || pageIndex == pages.size() - 1) {
+			getConainerActivity().getSlidingMenu().setSlidingEnabled(false);
+		}else{
+			getConainerActivity().getSlidingMenu().setSlidingEnabled(true);
+		}
+//		.setSlidingEnabled(false);
+	}
 	
-	private List<BaseTagPage> pages = new ArrayList<BaseTagPage>();
+	
 	public void initData(){
-		pages.add(new HomeBaseTagPage(context));
-		pages.add(new NewsBaseTagPage(context));
-		pages.add(new SmartBaseTagPage(context));
-		pages.add(new GovBaseTagPage(context));
-		pages.add(new SetBaseTagPage(context));
+		pages.add(new HomeBaseTagPage(getConainerActivity()));
+		pages.add(new NewsBaseTagPage(getConainerActivity()));
+		pages.add(new SmartBaseTagPage(getConainerActivity()));
+		pages.add(new GovBaseTagPage(getConainerActivity()));
+		pages.add(new SetBaseTagPage(getConainerActivity()));
 		
 		MyAdapter adapter = new MyAdapter();
 		
@@ -140,7 +178,7 @@ public class MainContentFragment extends BaseFragment {
 			// TODO Auto-generated method stub
 			System.out.println("destroyItem position = " + position);
 			container.removeView((View) object);
-//			super.destroyItem(container, position, object); 
+//			destroyItem(container, position, object); 
 		}
 		
 		@Override
@@ -151,7 +189,7 @@ public class MainContentFragment extends BaseFragment {
 			View rootView = baseTagPage.getRoot();
 			container.addView(rootView);
 			return rootView;
-//			return super.instantiateItem(container, position);
+//			return instantiateItem(container, position);
 		}
 	}
 	
