@@ -32,8 +32,8 @@ import com.lidroid.xutils.view.annotation.ViewInject;
  */
 public class MainContentFragment extends BaseFragment {
 
-	@ViewInject(R.id.vp_pages_main)
-	private ViewPager viewPager;
+	@ViewInject(R.id.vp_pages_main)  
+	private ViewPager viewPager;	//这里的注解已经初始化了viewPager, 不需要再用findViewById去获取控件对象
 	
 	@ViewInject(R.id.radioGroup_main)
 	private RadioGroup rGroup;
@@ -58,6 +58,7 @@ public class MainContentFragment extends BaseFragment {
 		pages.add(new SetBaseTagPage(context));
 		
 		MyAdapter adapter = new MyAdapter();
+		
 		viewPager.setAdapter(adapter);
 		
 		

@@ -25,7 +25,7 @@ public class MainActivity extends SlidingFragmentActivity{
 	
 	public static final String TAG_LEFT_MENU = "leftMenu_fragment";
 	public static final String TAG_MAIN_CONTENT = "mainContent_fragment";
-	private ViewPagerOperator vpo;
+	private SlidingMenu leftMenu;
 	public MainActivity() {
 //		vpo = new ViewPagerOperator(this);
 	}
@@ -107,7 +107,7 @@ public class MainActivity extends SlidingFragmentActivity{
 	private void initView() {
 		//设置主界面
 		this.setContentView(R.layout.activity_main_fm_content_tag);
-		SlidingMenu menu = this.getSlidingMenu();
+		leftMenu = this.getSlidingMenu();
 		
 		//设置左侧界面.使用SlidingFragmentActivity时behindView必须在onCreate中设置
 		this.setBehindContentView(R.layout.activity_main_fm_left_tag);
@@ -115,17 +115,21 @@ public class MainActivity extends SlidingFragmentActivity{
 //		menu.setSecondaryMenu(R.layout.activity_main_fm_right);
 		
 		//设置滑动点的位置 TOUCHMODE_FULLSCREEN全屏,TOUCHMODE_MARGIN边缘,TOUCHMODE_NONE不能拖动
-		menu.setTouchModeAbove(SlidingMenu.TOUCHMODE_MARGIN); //全屏滑动
+		leftMenu.setTouchModeAbove(SlidingMenu.TOUCHMODE_MARGIN); //全屏滑动
 		
 		//设置滑动模式LEFT,RIGHT,LEFT_RIGHT
-		menu.setMode(SlidingMenu.LEFT);
+		leftMenu.setMode(SlidingMenu.LEFT);
 
 		//设置滑动距离
 //		menu.setBehindOffset(DensityUtil.dip2px(this, 300));
-		menu.setBehindOffset(700);
+		leftMenu.setBehindOffset(700);
+		
+//		leftMenu.setSlidingEnabled(false);
 		
 //        menu.setFadeDegree(0.35f);
 //        menu.attachToActivity(this, SlidingMenu.SLIDING_CONTENT);
 //		vpo.initView();
 	}
+	
+	
 }
