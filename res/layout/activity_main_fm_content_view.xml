@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#00ff00"
+    android:id="@+id/mainContentView"
+    android:orientation="vertical" >
+
+    <android.support.v4.view.ViewPager
+        android:id="@+id/vp_main_pages"
+        android:layout_width="match_parent"
+        android:layout_weight="1"
+        android:layout_height="0dp" >
+    </android.support.v4.view.ViewPager>
+
+    <RadioGroup
+        android:id="@+id/radioGroup"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:background="@drawable/bottom_tab_bg" >
+    
+        <RadioButton 
+            android:id="@+id/mainBtnHome"
+            style="@style/mainRadioButtonStyle"
+            android:drawableTop="@drawable/btn_home_selector"
+            android:text="@string/mainBtn1"/>
+        <RadioButton 
+            android:id="@+id/mainBtnNews"
+            style="@style/mainRadioButtonStyle"
+            android:drawableTop="@drawable/btn_news_selector"
+            android:text="@string/mainBtn2"/>
+        <RadioButton 
+            android:id="@+id/mainBtnSmart"
+            style="@style/mainRadioButtonStyle"
+            android:drawableTop="@drawable/btn_smart_selector"
+            android:text="@string/mainBtn3"/>
+        <RadioButton 
+            android:id="@+id/mainBtnGov"
+            style="@style/mainRadioButtonStyle"
+            android:drawableTop="@drawable/btn_gov_selector"
+            android:text="@string/mainBtn4"/>
+        <RadioButton 
+            android:id="@+id/mainBtnSet"
+            style="@style/mainRadioButtonStyle"
+            android:drawableTop="@drawable/btn_set_selector"
+            android:text="@string/mainBtn5"/>
+    </RadioGroup>
+</LinearLayout>
