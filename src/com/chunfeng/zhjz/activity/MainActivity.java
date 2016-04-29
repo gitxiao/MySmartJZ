@@ -60,7 +60,7 @@ public class MainActivity extends SlidingFragmentActivity{
 		//完成左侧菜单的替换
 		transaction.replace(R.id.fl_left_menu, new LeftMenuFragment(), TAG_LEFT_MENU);
 		
-		//完成左侧菜单的替换
+		//完成主界面的替换,
 		transaction.replace(R.id.fl_main_content, new MainContentFragment(), TAG_MAIN_CONTENT);
 
 		//3.提交事务

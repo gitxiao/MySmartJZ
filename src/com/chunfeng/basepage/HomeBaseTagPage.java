@@ -29,10 +29,12 @@ public class HomeBaseTagPage extends BaseTagPage{
 		btnMenuButton.setVisibility(View.VISIBLE);
 		
 		textView.setText(context.getString(R.string.mainBtn1));
-		TextView textView = new TextView(context);
-		textView.setText("主界面内容");
-//		textView.setTextColor(""#000000");
-		textView.setTextSize(25);
-		textView.setGravity(Gravity.CENTER);
+		TextView tv = new TextView(context);
+		tv.setText("主界面内容");
+//		tv.setTextColor(""#000000");
+		tv.setTextSize(25);
+		tv.setGravity(Gravity.CENTER);
+		
+		flLayout.addView(tv);
 	}
 }

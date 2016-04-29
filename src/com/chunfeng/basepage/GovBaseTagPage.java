@@ -25,11 +25,14 @@ public class GovBaseTagPage extends BaseTagPage{
 	}
 
 	public void initData() {
+		//设置标题
 		textView.setText(context.getString(R.string.mainBtn4));
-		TextView textView = new TextView(context);
-		textView.setText("政务");
-//		textView.setTextColor(""#000000");
-		textView.setTextSize(25);
-		textView.setGravity(Gravity.CENTER);
+		
+		TextView tv = new TextView(context);
+		tv.setText(R.string.mainBtn4);
+//		tv.setTextColor(""#000000");
+		tv.setTextSize(25);
+		tv.setGravity(Gravity.CENTER);
+		flLayout.addView(tv);
 	}
 }

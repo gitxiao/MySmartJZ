@@ -26,10 +26,12 @@ public class SetBaseTagPage extends BaseTagPage{
 
 	public void initData() {
 		textView.setText(context.getString(R.string.mainBtn5));
-		TextView textView = new TextView(context);
-		textView.setText("设置");
-//		textView.setTextColor(""#000000");
-		textView.setTextSize(25);
-		textView.setGravity(Gravity.CENTER);
+		TextView tv = new TextView(context);
+		tv.setText(R.string.mainBtn5);
+//		tv.setTextColor(""#000000");
+		tv.setTextSize(25);
+		tv.setGravity(Gravity.CENTER);
+		
+		flLayout.addView(tv);
 	}
 }

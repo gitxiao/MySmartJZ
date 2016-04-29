@@ -26,10 +26,12 @@ public class SmartBaseTagPage extends BaseTagPage{
 
 	public void initData() {
 		textView.setText(context.getString(R.string.mainBtn3));
-		TextView textView = new TextView(context);
-		textView.setText("智慧北京");
-//		textView.setTextColor(""#000000");
-		textView.setTextSize(25);
-		textView.setGravity(Gravity.CENTER);
+		TextView tv = new TextView(context);
+		tv.setText(R.string.mainBtn3);
+//		tv.setTextColor(""#000000");
+		tv.setTextSize(25);
+		tv.setGravity(Gravity.CENTER);
+		
+		flLayout.addView(tv);
 	}
 }

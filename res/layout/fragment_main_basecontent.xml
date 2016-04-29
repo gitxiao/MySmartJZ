@@ -4,42 +4,36 @@
     android:layout_height="match_parent"
     android:orientation="vertical" >
 
+        
     <RelativeLayout
-        android:background="@drawable/title_red_bg"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-        
-        <ImageButton 
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/title_red_bg" >
+
+        <ImageButton
             android:id="@+id/btnMenuInBaseContent"
-            android:paddingLeft="20dp"
-            android:layout_centerVertical="true"
-            android:background="@android:color/transparent"
-            android:src="@drawable/img_menu"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
-        
-        <TextView 
-            android:id="@+id/textViewInBaseContent"
-            android:text="@string/mainBtn1"
-            android:textSize="22sp"
-            android:textColor="#ffffff"
-            android:layout_centerInParent="true"
             android:layout_height="wrap_content"
-            android:layout_width="wrap_content"/>
-        
-<!--        android:layout_centerVertical="true" 
-            android:layout_marginLeft="50dp"
-            android:gravity="center"
-            
--->
-		<!-- 可以被替换的内容, 用帧布局FrameLayout -->
-        <FrameLayout
-            android:id="@+id/fl_base_content_tag"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" >
-        </FrameLayout>
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="20dp"
+            android:background="@android:color/transparent"
+            android:src="@drawable/img_menu" />
 
-
+        <TextView
+            android:id="@+id/textViewInBaseContent"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:text="@string/mainBtn1"
+            android:textColor="#ffffff"
+            android:textSize="22sp" />
     </RelativeLayout>
+
+    <!-- 注意, 这个FrameLayout布局在上面的RelativeLayout外面, 而不是里面 -->
+    <FrameLayout
+        android:id="@+id/fl_base_content_tag"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" >
+    </FrameLayout>
 
 </LinearLayout>
