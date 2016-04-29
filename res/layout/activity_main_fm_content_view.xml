@@ -7,14 +7,14 @@
     android:orientation="vertical" >
 
     <android.support.v4.view.ViewPager
-        android:id="@+id/vp_main_pages"
+        android:id="@+id/vp_pages_main"
         android:layout_width="match_parent"
         android:layout_weight="1"
         android:layout_height="0dp" >
     </android.support.v4.view.ViewPager>
 
     <RadioGroup
-        android:id="@+id/radioGroup"
+        android:id="@+id/radioGroup_main"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"

@@ -3,9 +3,9 @@
  */
 package com.chunfeng.zhjz.activity;
 
+import com.chunfeng.utils.ViewPagerOperator;
 import com.chunfeng.view.LeftMenuFragment;
 import com.chunfeng.view.MainContentFragment;
-import com.chunfeng.view.ViewPagerOperator;
 import com.example.test.R;
 import com.jeremyfeinstein.slidingmenu.lib.SlidingMenu;
 import com.jeremyfeinstein.slidingmenu.lib.app.SlidingFragmentActivity;

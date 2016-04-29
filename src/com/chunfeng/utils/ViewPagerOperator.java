@@ -1,7 +1,7 @@
 /**
  * 
  */
-package com.chunfeng.view;
+package com.chunfeng.utils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -26,26 +26,22 @@ public class ViewPagerOperator {
 	private Activity activity;
 	private ViewPager vPager;
 	private MyAdapter adapter;
-	private List<ImageView> viewList;
+	private List<View> viewList;
 	public ViewPagerOperator(Activity activity){
 		this.activity = activity;
 	}
 	
-	public void initView(){
+	public void initView(int viewId){
 		//ViewPager组件
-		vPager = (ViewPager) activity.findViewById(R.id.vp_main_pages);
+		vPager = (ViewPager) activity.findViewById(viewId);
 	}
 	
-	public void initData(){
-		int[] pics = new int[]{R.drawable.guide_1,R.drawable.guide_2,R.drawable.guide_3};
+	public void initData(View[] views){
 		//ViewPager list容器
-		viewList = new ArrayList<ImageView>();
+		viewList = new ArrayList<View>();
 		//设置灰色点的大小
-		for(int i = 0;i < pics.length;i ++) {
-			//设置viewPager中的页面背景图
-			ImageView iv = new ImageView(activity.getApplicationContext());
-			iv.setBackgroundResource(pics[i]);
-			viewList.add(iv);
+		for (View view : views) {
+			viewList.add(view);
 		}
 		
 		//ViewPager的适配器
@@ -85,7 +81,7 @@ public class ViewPagerOperator {
 		public Object instantiateItem(ViewGroup container, int position) {
 			// TODO Auto-generated method stub
 			System.out.println("instantiateItem position = " + position);
-			View child = viewList.get(position);
+			View child = (View)viewList.get(position);
 			container.addView(child );
 			return child;
 //			return super.instantiateItem(container, position);
