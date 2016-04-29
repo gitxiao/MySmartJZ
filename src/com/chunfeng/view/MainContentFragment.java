@@ -6,11 +6,17 @@ package com.chunfeng.view;
 import java.util.ArrayList;
 import java.util.List;
 
+import android.annotation.SuppressLint;
+import android.app.Application;
+import android.print.PrintAttributes;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.view.View;
+import android.view.View.OnAttachStateChangeListener;
 import android.view.ViewGroup;
+import android.widget.RadioButton;
 import android.widget.RadioGroup;
+import android.widget.RadioGroup.OnCheckedChangeListener;
 
 import com.chunfeng.basepage.BaseTagPage;
 import com.chunfeng.basepage.GovBaseTagPage;
@@ -33,7 +39,7 @@ import com.lidroid.xutils.view.annotation.ViewInject;
 public class MainContentFragment extends BaseFragment {
 
 	@ViewInject(R.id.vp_pages_main)  
-	private ViewPager viewPager;	//这里的注解已经初始化了viewPager, 不需要再用findViewById去获取控件对象
+	private ViewPager viewPager;	//使用了XUtils开源插件,这里的注解已经初始化了viewPager, 不需要再用findViewById去获取控件对象.
 	
 	@ViewInject(R.id.radioGroup_main)
 	private RadioGroup rGroup;
@@ -45,9 +51,56 @@ public class MainContentFragment extends BaseFragment {
 		//动态注入  使用xutils开源框架
 		ViewUtils.inject(this, root);
 		
+		//第一个按钮默认被选中, 在布局文件中设置属性checked=true也可以
+//		RadioButton rButton = (RadioButton) rGroup.getChildAt(0);
+//		rButton.setChecked(true);
 		return root;
 	}
 
+	
+	@SuppressLint("NewApi")
+	public void initEvent() {
+		rGroup.setOnCheckedChangeListener(new OnCheckedChangeListener() {
+			
+			@Override
+			public void onCheckedChanged(RadioGroup radioGroup, int id) {
+				System.out.println("onCheckedChanged====================================================arg1 =" + id);
+				switch (id) {
+				case R.id.mainBtnHome:
+					System.out.println("按下了" + context.getString(R.string.mainBtn1));
+					break;
+				case R.id.mainBtnNews:
+					System.out.println("按下了" + context.getString(R.string.mainBtn2));
+					break;
+				case R.id.mainBtnSmart:
+					System.out.println("按下了" + context.getString(R.string.mainBtn3));
+					break;
+				case R.id.mainBtnGov:
+					System.out.println("按下了" + context.getString(R.string.mainBtn4));
+					break;
+				case R.id.mainBtnSet:
+					System.out.println("按下了" + context.getString(R.string.mainBtn5));
+					break;
+
+				default:
+					break;
+				}
+			}
+		});
+		
+		rGroup.addOnAttachStateChangeListener(new OnAttachStateChangeListener() {
+			
+			@Override
+			public void onViewDetachedFromWindow(View arg0) {
+				System.out.println("onViewDetachedFromWindow---------------------------------------------");
+			}
+			
+			@Override
+			public void onViewAttachedToWindow(View arg0) {
+				System.out.println("onViewAttachedToWindow+++++++++++++++++++++++++++++++++++++++++++++++");
+			}
+		});
+	}
 	
 	private List<BaseTagPage> pages = new ArrayList<BaseTagPage>();
 	public void initData(){

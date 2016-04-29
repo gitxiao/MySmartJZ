@@ -22,6 +22,7 @@
     
         <RadioButton 
             android:id="@+id/mainBtnHome"
+            android:checked="true"
             style="@style/mainRadioButtonStyle"
             android:drawableTop="@drawable/btn_home_selector"
             android:text="@string/mainBtn1"/>
