@@ -125,6 +125,7 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
     }
     public static final class color {
         public static final int btn_color=0x7f080000;
+        public static final int textview_left_color=0x7f080001;
     }
     public static final class dimen {
         /**  Default screen margins, per the Android Design guidelines. 
@@ -168,7 +169,8 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
         public static final int smartservice_press=0x7f02001c;
         public static final int splash_bg_newyear_1=0x7f02001d;
         public static final int splash_sheep_newyear=0x7f02001e;
-        public static final int title_red_bg=0x7f02001f;
+        public static final int textview_left_selector=0x7f02001f;
+        public static final int title_red_bg=0x7f020020;
     }
     public static final class id {
         public static final int action_settings=0x7f040022;

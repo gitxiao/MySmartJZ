@@ -4,9 +4,10 @@
     android:layout_height="wrap_content" 
     android:drawablePadding="5dp"
     android:padding="10dp"
-    android:textColor="#ffffff"
+    android:enabled="false"
     android:layout_marginLeft="5dp"
-    android:drawableLeft="@drawable/menu_arr_select"
+    android:textColor="@color/textview_left_color"
     android:textSize="20sp"
-    android:text="新闻">
+    android:drawableLeft="@drawable/textview_left_selector"
+    android:text="">
 </TextView>

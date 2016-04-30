@@ -13,6 +13,7 @@ int attr touchModeBehind 0x7f010007
 int attr viewAbove 0x7f010001
 int attr viewBehind 0x7f010002
 int color btn_color 0x7f080000
+int color textview_left_color 0x7f080001
 int dimen activity_horizontal_margin 0x7f050000
 int dimen activity_vertical_margin 0x7f050001
 int drawable bottom_tab_bg 0x7f020000
@@ -46,7 +47,8 @@ int drawable smartservice 0x7f02001b
 int drawable smartservice_press 0x7f02001c
 int drawable splash_bg_newyear_1 0x7f02001d
 int drawable splash_sheep_newyear 0x7f02001e
-int drawable title_red_bg 0x7f02001f
+int drawable textview_left_selector 0x7f02001f
+int drawable title_red_bg 0x7f020020
 int id action_settings 0x7f040022
 int id bt_guide_startexp 0x7f04000a
 int id btnMenuInBaseContent 0x7f04001e

@@ -6,6 +6,8 @@ package com.chunfeng.view;
 import java.util.ArrayList;
 import java.util.List;
 
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -33,9 +35,9 @@ public class LeftMenuFragment extends BaseFragment {
 	private ListView lvListView;			//左侧显示的标签用ListView来实现
 	private List<NewsType> dataList = new ArrayList<NewsType>();
 	private MyAdapter adapter;
-	/* (non-Javadoc)
-	 * @see com.chunfeng.view.BaseFragment#initView()
-	 */
+	
+	private int slectedIndex;		//左侧选项被选中的索引
+	
 	@Override
 	public View initView() {
 //		lvListView = new ListView(getActivity());
@@ -44,10 +46,10 @@ public class LeftMenuFragment extends BaseFragment {
 		//动态注入  使用xutils开源框架
 		ViewUtils.inject(this, root);
 		
-//		lvListView.setBackgroundColor(Color.BLACK);
-//		lvListView.setCacheColorHint(Color.TRANSPARENT);
-//		lvListView.setDividerHeight(0);
-//		lvListView.setSelector(Color.TRANSPARENT);
+		lvListView.setBackgroundColor(Color.BLACK);
+		lvListView.setCacheColorHint(Color.TRANSPARENT);
+		lvListView.setDividerHeight(0);
+		lvListView.setSelector(new ColorDrawable(Color.TRANSPARENT));
 		return root;
 	}
 
@@ -67,9 +69,11 @@ public class LeftMenuFragment extends BaseFragment {
 	public void initEvent(){
 		lvListView.setOnItemClickListener(new OnItemClickListener() {
 			@Override
-			public void onItemClick(AdapterView<?> arg0, View arg1, int arg2,
+			public void onItemClick(AdapterView<?> arg0, View view, int arg2,
 					long arg3) {
 				System.out.println("按下了左侧按钮 arg2 = " + arg2);
+				slectedIndex = arg2;
+				adapter.notifyDataSetChanged();		//通知adapter, listView中的item的状态发生了变化
 			}
 			
 		});
@@ -101,6 +105,8 @@ public class LeftMenuFragment extends BaseFragment {
 		public View getView(int position, View convertView, ViewGroup parent) {
 			//显示从服务器获取到的数据
 //			getActivity()
+			
+			System.out.println("MyAdapter getView position = " + position);
 			TextView textView = null;
 			if(convertView == null){
 				textView = (TextView) View.inflate(getActivity(), R.layout.leftmenu_list_textview, null);
@@ -109,6 +115,7 @@ public class LeftMenuFragment extends BaseFragment {
 				textView = (TextView)convertView;
 			}
 			textView.setText(dataList.get(position).title);
+			textView.setEnabled(position == slectedIndex);
 			return textView;
 		}
 		
