@@ -16,24 +16,26 @@ import com.example.test.R;
  * @time 上午10:53:03
  * @todo TODO
  */
-public class SetBaseTagPage extends BaseTagPage{
+public class GovTagPage extends BaseTagPage{
 
 	/**
 	 * @param context
 	 */
-	public SetBaseTagPage(MainActivity context) {
+	public GovTagPage(MainActivity context) {
 		super(context);
 	}
 
 	public void initData() {
-		textView.setText(activity.getString(R.string.mainBtn5));
+		//设置标题
+		textView.setText(activity.getString(R.string.mainBtn4));
+		
 		TextView tv = new TextView(activity);
-		tv.setText(R.string.mainBtn5);
+		tv.setText(R.string.mainBtn4);
 //		tv.setTextColor(""#000000");
 		tv.setTextSize(25);
 		tv.setGravity(Gravity.CENTER);
-		
 		flLayout.addView(tv);
-		btnMenuButton.setVisibility(View.GONE);
+		
+		btnMenuButton.setVisibility(View.VISIBLE);
 	}
 }

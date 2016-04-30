@@ -3,6 +3,7 @@
  */
 package com.chunfeng.zhjz.activity;
 
+import com.chunfeng.utils.DensityUtil;
 import com.chunfeng.utils.ViewPagerOperator;
 import com.chunfeng.view.LeftMenuFragment;
 import com.chunfeng.view.MainContentFragment;
@@ -57,18 +58,43 @@ public class MainActivity extends SlidingFragmentActivity{
 		FragmentTransaction transaction = fragmentManager.beginTransaction();
 		
 		//2.完成替换
-		//完成左侧菜单的替换
-		transaction.replace(R.id.fl_left_menu, new LeftMenuFragment(), TAG_LEFT_MENU);
 		
 		//完成主界面的替换,
-		transaction.replace(R.id.fl_main_content, new MainContentFragment(), TAG_MAIN_CONTENT);
+		//替换掉已经显示的R.layout.activity_main_fm_content_tag中的空布局R.id.fl_main_content
+		transaction.replace(R.id.fl_main_content_tag, new MainContentFragment(), TAG_MAIN_CONTENT);
 
+		//完成左侧菜单的替换
+		//用LeftMenuFragment替换掉已经显示的左侧空布局R.id.fl_left_menu, 
+		//左侧空布局是放置在leftMenu(SliddingMenu)中的, 所以, 替换后LeftMenuFragment就显示在了slidingmenu中
+		//或者说activity有了sliddingMenu的属性, 所以其左侧的LeftMenuFragment就能够滑动
+		transaction.replace(R.id.fl_left_menu_tag, new LeftMenuFragment(), TAG_LEFT_MENU);
+		
 		//3.提交事务
 		transaction.commit();
 		
 //		vpo.initData();
 	}
 
+	/**
+	 * 可以从外部类, 或者从具有MainActivity上下文的类中获取MainActivity中的LeftMenuFragment
+	 * @return
+	 */
+	public LeftMenuFragment getLeftMenuFragment(){
+		FragmentManager fragmentManager = getSupportFragmentManager();
+		LeftMenuFragment lmf = (LeftMenuFragment) fragmentManager.findFragmentByTag(TAG_LEFT_MENU);
+		return lmf;
+	}
+	
+	/**
+	 * 可以从外部类, 或者从具有MainActivity上下文的类中获取MainActivity中的LeftMenuFragment
+	 * @return
+	 */
+	public MainContentFragment MainContentFragment(){
+		FragmentManager fragmentManager = getSupportFragmentManager();
+		MainContentFragment mcfContentFragment = (MainContentFragment)fragmentManager.findFragmentByTag(TAG_MAIN_CONTENT);
+		return mcfContentFragment;
+	}
+	
 	/**
 	 * 代码示例
 	 * setTitle(R.string.attach);
@@ -107,6 +133,7 @@ public class MainActivity extends SlidingFragmentActivity{
 	private void initView() {
 		//设置主界面
 		this.setContentView(R.layout.activity_main_fm_content_tag);
+		
 		leftMenu = this.getSlidingMenu();
 		
 		//设置左侧界面.使用SlidingFragmentActivity时behindView必须在onCreate中设置
@@ -121,8 +148,10 @@ public class MainActivity extends SlidingFragmentActivity{
 		leftMenu.setMode(SlidingMenu.LEFT);
 
 		//设置滑动距离
-//		menu.setBehindOffset(DensityUtil.dip2px(this, 300));
-		leftMenu.setBehindOffset(700);
+//		leftMenu.setAboveOffset(DensityUtil.dip2px(this, 5));
+		leftMenu.setBehindOffset(DensityUtil.dip2px(this, 250));	//右侧主界面剩余显示宽度
+//		leftMenu.setBehindOffset(DensityUtil.dip2px(this, 300));
+//		leftMenu.setBehindOffset(700);
 		
 		leftMenu.setSlidingEnabled(false);			//开始默认在主界面, 不能划出左侧菜单
 		

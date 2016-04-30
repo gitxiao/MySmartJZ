@@ -16,12 +16,12 @@ import com.example.test.R;
  * @time 上午10:53:03
  * @todo TODO
  */
-public class SmartBaseTagPage extends BaseTagPage{
+public class SmartTagPage extends BaseTagPage{
 
 	/**
 	 * @param context
 	 */
-	public SmartBaseTagPage(MainActivity context) {
+	public SmartTagPage(MainActivity context) {
 		super(context);
 	}
 

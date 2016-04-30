@@ -24,12 +24,12 @@ import com.lidroid.xutils.http.client.HttpRequest.HttpMethod;
  * @time 上午10:53:03
  * @todo TODO
  */
-public class NewsBaseTagPage extends BaseTagPage{
+public class NewsTagPage extends BaseTagPage{
 
 	/**
 	 * @param context
 	 */
-	public NewsBaseTagPage(MainActivity context) {
+	public NewsTagPage(MainActivity context) {
 		super(context);
 	}
 	
@@ -85,6 +85,8 @@ public class NewsBaseTagPage extends BaseTagPage{
 	
 		System.out.println("解析后的json数据: " + newsData.retcode);
 		System.out.println("解析后的json数据: " + newsData.data.get(0).children.get(0).title);
+		
+		activity.getLeftMenuFragment().setNewsData(newsData.data);
 	}
 
 }

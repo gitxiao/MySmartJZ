@@ -15,11 +15,11 @@ import android.widget.RadioGroup;
 import android.widget.RadioGroup.OnCheckedChangeListener;
 
 import com.chunfeng.basepage.BaseTagPage;
-import com.chunfeng.basepage.GovBaseTagPage;
-import com.chunfeng.basepage.HomeBaseTagPage;
-import com.chunfeng.basepage.NewsBaseTagPage;
-import com.chunfeng.basepage.SetBaseTagPage;
-import com.chunfeng.basepage.SmartBaseTagPage;
+import com.chunfeng.basepage.GovTagPage;
+import com.chunfeng.basepage.HomeTagPage;
+import com.chunfeng.basepage.NewsTagPage;
+import com.chunfeng.basepage.SetTagPage;
+import com.chunfeng.basepage.SmartTagPage;
 import com.chunfeng.utils.MyViewPager;
 import com.example.test.R;
 import com.jeremyfeinstein.slidingmenu.lib.SlidingMenu;
@@ -138,11 +138,11 @@ System.out.println("onViewAttachedToWindow++++++++++++++++++++++++++++++++++++++
 	
 	
 	public void initData(){
-		pages.add(new HomeBaseTagPage(getConainerActivity()));
-		pages.add(new NewsBaseTagPage(getConainerActivity()));
-		pages.add(new SmartBaseTagPage(getConainerActivity()));
-		pages.add(new GovBaseTagPage(getConainerActivity()));
-		pages.add(new SetBaseTagPage(getConainerActivity()));
+		pages.add(new HomeTagPage(getConainerActivity()));
+		pages.add(new NewsTagPage(getConainerActivity()));
+		pages.add(new SmartTagPage(getConainerActivity()));
+		pages.add(new GovTagPage(getConainerActivity()));
+		pages.add(new SetTagPage(getConainerActivity()));
 		
 		MyAdapter adapter = new MyAdapter();
 		

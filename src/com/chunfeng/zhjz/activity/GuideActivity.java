@@ -226,7 +226,10 @@ public class GuideActivity extends Activity {
 	 */
 	private void initView() {
 		System.out.println("GuideActivity initView");
+//		View view = View.inflate(this, R.layout.activity_guide, null);
+//		this.setContentView(view);
 		this.setContentView(R.layout.activity_guide);
+		
 		//ViewPager组件
 		vp_guids = (ViewPager) this.findViewById(R.id.vp_guide_pages);
 		

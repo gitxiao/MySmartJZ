@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
+import android.view.View;
 import android.view.Window;
 import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
@@ -99,7 +100,9 @@ public class LogoActivity extends Activity {
 
 	private void initView() {
 		// TODO Auto-generated method stub
-		setContentView(R.layout.activity_logo);
+		View view = View.inflate(this, R.layout.activity_logo, null);
+		this.setContentView(view);
+//		setContentView(R.layout.activity_logo);
 		iv_logoView = (ImageView)findViewById(R.id.imageViewLogo);
 		
     }
