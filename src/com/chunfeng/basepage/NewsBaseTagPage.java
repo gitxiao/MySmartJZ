@@ -7,9 +7,11 @@ import android.view.Gravity;
 import android.view.View;
 import android.widget.TextView;
 
+import com.chunfeng.dataLogic.NewsCenterData;
 import com.chunfeng.utils.MyConstants;
 import com.chunfeng.zhjz.activity.MainActivity;
 import com.example.test.R;
+import com.google.gson.Gson;
 import com.lidroid.xutils.HttpUtils;
 import com.lidroid.xutils.exception.HttpException;
 import com.lidroid.xutils.http.ResponseInfo;
@@ -57,8 +59,8 @@ public class NewsBaseTagPage extends BaseTagPage{
 				
 				@Override
 				public void onSuccess(ResponseInfo<T> responseInfo) {
-					System.out.println("网络访问成功 responseInfo = " + responseInfo.toString());				
-					
+//					System.out.println("网络访问成功 responseInfo.result = " + responseInfo.result);				
+					parseJsonData((String)(responseInfo.result));
 				}
 				
 				@Override
@@ -71,6 +73,18 @@ public class NewsBaseTagPage extends BaseTagPage{
 			e.printStackTrace();
 		}
 			
+	}
+	
+	/**
+	 * 解析json数据
+	 * @param jsonData
+	 */
+	protected void parseJsonData(String jsonData){
+		Gson gson = new Gson();
+		NewsCenterData newsData = gson.fromJson(jsonData, NewsCenterData.class);
+	
+		System.out.println("解析后的json数据: " + newsData.retcode);
+		System.out.println("解析后的json数据: " + newsData.data.get(0).children.get(0).title);
 	}
 
 }
