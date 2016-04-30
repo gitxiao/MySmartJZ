@@ -6,9 +6,10 @@ package com.chunfeng.view;
 import java.util.ArrayList;
 import java.util.List;
 
-import android.graphics.Color;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
 import android.widget.BaseAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -58,6 +59,20 @@ public class LeftMenuFragment extends BaseFragment {
 	public void setNewsData(List<NewsType> dataList){
 		this.dataList = dataList;
 		adapter.notifyDataSetChanged();		//设置好数据后, 通知适配器进行刷新, 显示新的页面内容
+	}
+	
+	/**
+	 * 初始化4个TextView被按下时的事件
+	 */
+	public void initEvent(){
+		lvListView.setOnItemClickListener(new OnItemClickListener() {
+			@Override
+			public void onItemClick(AdapterView<?> arg0, View arg1, int arg2,
+					long arg3) {
+				System.out.println("按下了左侧按钮 arg2 = " + arg2);
+			}
+			
+		});
 	}
 	
 	public void initData(){
