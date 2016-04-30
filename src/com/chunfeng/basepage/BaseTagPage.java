@@ -34,7 +34,9 @@ public class BaseTagPage {
 	public BaseTagPage(MainActivity context) {
 		this.activity = context;
 		initView();
-		initData();
+		//不能在这里初始化数据, 因为当各子类页面对象创建的时候就会自动调用了,会浪费流量
+		//应该在各个子类页面初始化的时候调用, 是否初始化由ViewPager(在MainContentFragment类中)的适配器决定 
+//		initData();  		
 		initEvent();
 	}
 

@@ -7,14 +7,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 import android.annotation.SuppressLint;
-import android.app.Application;
-import android.print.PrintAttributes;
 import android.support.v4.view.PagerAdapter;
-import android.support.v4.view.ViewPager;
 import android.view.View;
 import android.view.View.OnAttachStateChangeListener;
 import android.view.ViewGroup;
-import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.RadioGroup.OnCheckedChangeListener;
 
@@ -24,6 +20,7 @@ import com.chunfeng.basepage.HomeBaseTagPage;
 import com.chunfeng.basepage.NewsBaseTagPage;
 import com.chunfeng.basepage.SetBaseTagPage;
 import com.chunfeng.basepage.SmartBaseTagPage;
+import com.chunfeng.utils.MyViewPager;
 import com.example.test.R;
 import com.jeremyfeinstein.slidingmenu.lib.SlidingMenu;
 import com.lidroid.xutils.ViewUtils;
@@ -42,7 +39,7 @@ public class MainContentFragment extends BaseFragment {
 	private List<BaseTagPage> pages = new ArrayList<BaseTagPage>();
 	
 	@ViewInject(R.id.vp_pages_main)  
-	private ViewPager viewPager;	//使用了XUtils开源插件,这里的注解已经初始化了viewPager, 不需要再用findViewById去获取控件对象.
+	private MyViewPager viewPager;	//使用了XUtils开源插件,这里的注解已经初始化了viewPager, 不需要再用findViewById去获取控件对象.
 	
 	@ViewInject(R.id.radioGroup_main)
 	private RadioGroup rGroup;  	//单选按钮
@@ -187,6 +184,7 @@ System.out.println("销毁页面destroyItem position = " + position);
 System.out.println("初始化页面 instantiateItem position = " + position);
 			BaseTagPage baseTagPage = pages.get(position);
 			View rootView = baseTagPage.getRoot();
+			baseTagPage.initData();		//页面显示时才初始化数据, 而不是创建对象的时候
 			container.addView(rootView);
 			return rootView;
 //			return instantiateItem(container, position);

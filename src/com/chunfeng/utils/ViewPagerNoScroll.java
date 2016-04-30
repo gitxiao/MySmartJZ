@@ -15,7 +15,7 @@ import android.view.MotionEvent;
  * @time 下午9:12:10
  * @todo 不能滑动的ViewPager, ViewPager的父类是ViewGroup,有事件分发功能dispathc, 禁用这个功能就能实现不能滑动
  */
-public class ViewPagerNoScroll extends ViewPager {
+public class ViewPagerNoScroll extends MyViewPager {
 
 	/**
 	 * @param context
