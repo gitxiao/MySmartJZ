@@ -25,6 +25,7 @@ import com.chunfeng.basepage.NewsBaseTagPage;
 import com.chunfeng.basepage.SetBaseTagPage;
 import com.chunfeng.basepage.SmartBaseTagPage;
 import com.example.test.R;
+import com.jeremyfeinstein.slidingmenu.lib.SlidingMenu;
 import com.lidroid.xutils.ViewUtils;
 import com.lidroid.xutils.view.annotation.ViewInject;
 
@@ -60,6 +61,8 @@ public class MainContentFragment extends BaseFragment {
 		//第一个按钮默认被选中, 在布局文件中设置属性checked=true也可以
 //		RadioButton rButton = (RadioButton) rGroup.getChildAt(0);
 //		rButton.setChecked(true);
+		
+//		rGroup.check(0);		或者直接这样设置第几个选中也可以
 		return root;
 	}
 
@@ -70,28 +73,22 @@ public class MainContentFragment extends BaseFragment {
 			
 			@Override
 			public void onCheckedChanged(RadioGroup radioGroup, int id) {
-				System.out.println("onCheckedChanged====================================================arg1 =" + id);
 				int pageIndex = -1;
 				switch (id) {
 				case R.id.mainBtnHome:
 					pageIndex = 0;
-					System.out.println("按下了" + getConainerActivity().getString(R.string.mainBtn1));
 					break;
 				case R.id.mainBtnNews:
 					pageIndex = 1;
-					System.out.println("按下了" + getConainerActivity().getString(R.string.mainBtn2));
 					break;
 				case R.id.mainBtnSmart:
 					pageIndex = 2;
-					System.out.println("按下了" + getConainerActivity().getString(R.string.mainBtn3));
 					break;
 				case R.id.mainBtnGov:
 					pageIndex = 3;
-					System.out.println("按下了" + getConainerActivity().getString(R.string.mainBtn4));
 					break;
 				case R.id.mainBtnSet:
 					pageIndex = 4;
-					System.out.println("按下了" + getConainerActivity().getString(R.string.mainBtn5));
 					break;
 
 				default:
@@ -106,12 +103,12 @@ public class MainContentFragment extends BaseFragment {
 			
 			@Override
 			public void onViewDetachedFromWindow(View arg0) {
-				System.out.println("onViewDetachedFromWindow---------------------------------------------");
+System.out.println("onViewDetachedFromWindow---------------------------------------------");
 			}
 			
 			@Override
 			public void onViewAttachedToWindow(View arg0) {
-				System.out.println("onViewAttachedToWindow+++++++++++++++++++++++++++++++++++++++++++++++");
+System.out.println("onViewAttachedToWindow+++++++++++++++++++++++++++++++++++++++++++++++");
 			}
 		});
 	}
@@ -134,8 +131,10 @@ public class MainContentFragment extends BaseFragment {
 		//如果是第一页或最后一页, 不让左侧菜单显示出来
 		if(pageIndex == 0 || pageIndex == pages.size() - 1) {
 			getConainerActivity().getSlidingMenu().setSlidingEnabled(false);
+			getConainerActivity().getSlidingMenu().setTouchModeAbove(SlidingMenu.TOUCHMODE_NONE);
 		}else{
 			getConainerActivity().getSlidingMenu().setSlidingEnabled(true);
+			getConainerActivity().getSlidingMenu().setTouchModeAbove(SlidingMenu.TOUCHMODE_FULLSCREEN);
 		}
 //		.setSlidingEnabled(false);
 	}
@@ -151,7 +150,9 @@ public class MainContentFragment extends BaseFragment {
 		MyAdapter adapter = new MyAdapter();
 		
 		viewPager.setAdapter(adapter);
-		
+//		viewPager.setOffscreenPageLimit(0); // 设置预加载页面数量为0,无效
+//		viewPager.setOffscreenPageLimit(1); // 设置预加载页面数量为1,无效
+//		viewPager.setOffscreenPageLimit(2);
 		
 		System.out.println("pages.getClass().getClassLoader() " + pages.getClass().getClassLoader());
 		System.out.println("pages.getClass().getName() " + pages.getClass().getName());
@@ -169,14 +170,13 @@ public class MainContentFragment extends BaseFragment {
 		@Override
 		public boolean isViewFromObject(View arg0, Object arg1) {
 			// 过滤和缓存的作用
-			System.out.println("isViewFromObject arg0 == arg1 = " + (arg0 == arg1));
 			return arg0 == arg1;
 		}
 		
 		@Override
 		public void destroyItem(ViewGroup container, int position, Object object) {
 			// TODO Auto-generated method stub
-			System.out.println("destroyItem position = " + position);
+System.out.println("销毁页面destroyItem position = " + position);
 			container.removeView((View) object);
 //			destroyItem(container, position, object); 
 		}
@@ -184,7 +184,7 @@ public class MainContentFragment extends BaseFragment {
 		@Override
 		public Object instantiateItem(ViewGroup container, int position) {
 			// TODO Auto-generated method stub
-			System.out.println("instantiateItem position = " + position);
+System.out.println("初始化页面 instantiateItem position = " + position);
 			BaseTagPage baseTagPage = pages.get(position);
 			View rootView = baseTagPage.getRoot();
 			container.addView(rootView);

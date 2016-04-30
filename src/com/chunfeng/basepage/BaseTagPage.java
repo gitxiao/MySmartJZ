@@ -3,14 +3,18 @@
  */
 package com.chunfeng.basepage;
 
-import com.example.test.R;
-
+import android.app.Activity;
 import android.content.Context;
-import android.opengl.Visibility;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.TextView;
+
+import com.chunfeng.zhjz.activity.MainActivity;
+import com.example.test.R;
+import com.jeremyfeinstein.slidingmenu.lib.app.SlidingFragmentActivity;
+import com.lidroid.xutils.view.annotation.ViewInject;
 
 /**
  * @author Cfrjkj
@@ -19,13 +23,16 @@ import android.widget.TextView;
  * @todo TODO
  */
 public class BaseTagPage {
-	public Context context;
-	public View root;
+	
+	@ViewInject(R.id.btnMenuInBaseContent)
 	public ImageButton btnMenuButton;
+	
+	public MainActivity activity;
+	public View root;
 	public TextView textView;
 	public FrameLayout flLayout;
-	public BaseTagPage(Context context) {
-		this.context = context;
+	public BaseTagPage(MainActivity context) {
+		this.activity = context;
 		initView();
 		initData();
 		initEvent();
@@ -35,7 +42,13 @@ public class BaseTagPage {
 	 * 
 	 */
 	public void initEvent() {
-		
+		btnMenuButton.setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View arg0) {
+				activity.getSlidingMenu().toggle();
+			}
+		});
 	}
 
 	/**
@@ -48,7 +61,7 @@ public class BaseTagPage {
 	 * 
 	 */
 	public void initView() {
-		root = View.inflate(context, R.layout.fragment_main_basecontent, null);
+		root = View.inflate(activity, R.layout.fragment_main_basecontent, null);
 		
 		btnMenuButton = (ImageButton) root.findViewById(R.id.btnMenuInBaseContent);
 		btnMenuButton.setVisibility(View.GONE);

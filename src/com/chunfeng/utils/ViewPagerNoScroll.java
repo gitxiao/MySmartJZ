@@ -6,6 +6,7 @@ package com.chunfeng.utils;
 import android.content.Context;
 import android.support.v4.view.ViewPager;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.MotionEvent;
 
 /**
@@ -41,7 +42,6 @@ public class ViewPagerNoScroll extends ViewPager {
 	@Override
 	public boolean onInterceptTouchEvent(MotionEvent ev) {
 		// TODO Auto-generated method stub
-		System.out.println("super.onInterceptTouchEvent(ev) = " + super.onInterceptTouchEvent(ev));
 		return super.onInterceptTouchEvent(ev);
 //		return true;
 	}
@@ -49,10 +49,7 @@ public class ViewPagerNoScroll extends ViewPager {
 	@Override
 	public boolean onTouchEvent(MotionEvent ev) {
 		// TODO Auto-generated method stub
-		System.out.println("super.onTouchEvent(ev) = " + super.onTouchEvent(ev));
-		return false;
+		return true;
 	}
-
-	
 	
 }

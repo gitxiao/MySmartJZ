@@ -3,12 +3,12 @@
  */
 package com.chunfeng.basepage;
 
-import com.example.test.R;
-
-import android.content.Context;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.TextView;
+
+import com.chunfeng.zhjz.activity.MainActivity;
+import com.example.test.R;
 
 /**
  * @author Cfrjkj
@@ -21,13 +21,13 @@ public class NewsBaseTagPage extends BaseTagPage{
 	/**
 	 * @param context
 	 */
-	public NewsBaseTagPage(Context context) {
+	public NewsBaseTagPage(MainActivity context) {
 		super(context);
 	}
 	
 	public void initData() {
-		textView.setText(context.getString(R.string.mainBtn2));
-		TextView tv = new TextView(context);
+		textView.setText(activity.getString(R.string.mainBtn2));
+		TextView tv = new TextView(activity);
 		tv.setText(R.string.mainBtn2);
 //		tv.setTextColor(""#000000");
 		tv.setTextSize(25);

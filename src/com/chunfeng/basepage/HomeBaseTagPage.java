@@ -3,11 +3,11 @@
  */
 package com.chunfeng.basepage;
 
-import android.content.Context;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.TextView;
 
+import com.chunfeng.zhjz.activity.MainActivity;
 import com.example.test.R;
 
 /**
@@ -21,15 +21,15 @@ public class HomeBaseTagPage extends BaseTagPage{
 	/**
 	 * @param context
 	 */
-	public HomeBaseTagPage(Context context) {
+	public HomeBaseTagPage(MainActivity context) {
 		super(context);
 	}
 
 	public void initData() {
 		btnMenuButton.setVisibility(View.VISIBLE);
 		
-		textView.setText(context.getString(R.string.mainBtn1));
-		TextView tv = new TextView(context);
+		textView.setText(activity.getString(R.string.mainBtn1));
+		TextView tv = new TextView(activity);
 		tv.setText("主界面内容");
 //		tv.setTextColor(""#000000");
 		tv.setTextSize(25);
