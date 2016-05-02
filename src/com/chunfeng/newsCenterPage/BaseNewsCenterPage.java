@@ -33,7 +33,7 @@ public abstract class BaseNewsCenterPage {
 	/**
 	 * 
 	 */
-	protected void initData() {
+	public void initData() {
 		// TODO Auto-generated method stub
 		
 	}

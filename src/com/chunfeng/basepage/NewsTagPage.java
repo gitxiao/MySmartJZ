@@ -98,7 +98,7 @@ public class NewsTagPage extends BaseTagPage implements OnLeftMenuSwitchListener
 	}
 	
 	/**
-	 * 解析json数据
+	 * 解析json数据, 这个方法是否应该提到父类中??
 	 * @param jsonData
 	 */
 	protected void parseJsonData(String jsonData){
@@ -117,7 +117,7 @@ public class NewsTagPage extends BaseTagPage implements OnLeftMenuSwitchListener
 			System.out.println("newsData.data.newsType = " + newsData.data.get(index ++).title);
 			switch (newsType.type) {
 			case 1:			//新闻, 子页面的顺序不能写死, 因为服务器上的内容有可能发生变化
-				bncp = new NewsBaseNewsCenterPage(activity);
+				bncp = new NewsBaseNewsCenterPage(activity,newsData.data.get(0).children);
 				break;
 			case 2:			//组图
 				bncp = new PicturesBaseNewsCenterPage(activity);
@@ -147,6 +147,7 @@ public class NewsTagPage extends BaseTagPage implements OnLeftMenuSwitchListener
 		if(newsData != null) {
 			textTitle.setText(newsData.data.get(position).title);
 			BaseNewsCenterPage bncpBaseNewsCenterPage = newsPageList.get(position);
+			bncpBaseNewsCenterPage.initData(); 				//切换页面时初始化新闻界面的数据
 			flLayout.removeAllViews();
 			flLayout.addView(bncpBaseNewsCenterPage.getView());
 		}else {
@@ -159,14 +160,7 @@ public class NewsTagPage extends BaseTagPage implements OnLeftMenuSwitchListener
 	 */
 	@Override
 	public void switchPageFromListener(int position) {
-		if(newsData != null) {
-			textTitle.setText(newsData.data.get(position).title);
-			BaseNewsCenterPage bncpBaseNewsCenterPage = newsPageList.get(position);
-			flLayout.removeAllViews();
-			flLayout.addView(bncpBaseNewsCenterPage.getView());
-		}else {
-			System.out.println("这个页面的数据还没加载,或加载失败");
-		}
+		switchPageFromSuper(position);
 	}
 
 }
