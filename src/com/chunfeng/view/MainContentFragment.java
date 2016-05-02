@@ -36,7 +36,6 @@ import com.lidroid.xutils.view.annotation.ViewInject;
  */
 public class MainContentFragment extends BaseFragment {
 	
-	private BaseTagPage baseTagPage;	//当前显示的主页面对象
 	
 	private List<BaseTagPage> pages = new ArrayList<BaseTagPage>();
 	
@@ -142,7 +141,7 @@ System.out.println("onViewAttachedToWindow++++++++++++++++++++++++++++++++++++++
 	 * 选中的子页面显示,共四个子页面可选, 新闻,专题,组图,互动
 	 */
 	public void switchChildPage(int pageIndex){
-		baseTagPage.switchPage(pageIndex);
+		pages.get(pageIndex).switchPage(pageIndex);
 	}
 	
 	public void initData(){
@@ -192,7 +191,7 @@ System.out.println("销毁页面destroyItem position = " + position);
 		public Object instantiateItem(ViewGroup container, int position) {
 			// TODO Auto-generated method stub
 System.out.println("初始化页面 instantiateItem position = " + position);
-			baseTagPage = pages.get(position);
+			BaseTagPage baseTagPage = pages.get(position);
 			View rootView = baseTagPage.getRoot();
 			baseTagPage.initData();		//页面显示时才初始化数据, 而不是创建对象的时候
 			container.addView(rootView);

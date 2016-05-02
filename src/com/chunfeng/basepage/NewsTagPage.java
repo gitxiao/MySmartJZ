@@ -134,5 +134,21 @@ public class NewsTagPage extends BaseTagPage{
 		switchPage(0); 			//默认显示新闻的内容
 	}
 
+	protected List<BaseNewsCenterPage> newsPageList = new ArrayList<BaseNewsCenterPage>();
+	protected NewsCenterData newsData;
 	
+	/**
+	 * 控制新闻中心子页面的显示, 可以在类外调用, 当在LeftMenuFragment中选择左侧按钮时调用这个函数来控制右侧内容的显示
+	 * @param position
+	 */
+	public void switchPage(int position){
+		if(newsData != null) {
+			textTitle.setText(newsData.data.get(position).title);
+			BaseNewsCenterPage bncpBaseNewsCenterPage = newsPageList.get(position);
+			flLayout.removeAllViews();
+			flLayout.addView(bncpBaseNewsCenterPage.getView());
+		}else {
+			System.out.println("这个页面的数据还没加载,或加载失败");
+		}
+	}
 }

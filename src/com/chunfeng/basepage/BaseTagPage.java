@@ -29,13 +29,18 @@ import com.lidroid.xutils.view.annotation.ViewInject;
  */
 public class BaseTagPage {
 	
+	public MainActivity activity;
+
+	//父类中抽取公共部分>>>
 	@ViewInject(R.id.btnMenuInBaseContent)
 	public ImageButton btnMenuButton;
 	
-	public MainActivity activity;
 	public View root;
 	public TextView textTitle;
-	public FrameLayout flLayout;
+	//父类中抽取公共部分<<<
+	
+	public FrameLayout flLayout;		//页面中不同部分, 先初始化一张白纸
+	
 	public BaseTagPage(MainActivity context) {
 		this.activity = context;
 		initView();
@@ -94,28 +99,11 @@ public class BaseTagPage {
 		return root;
 	}
 	
-	protected List<BaseNewsCenterPage> newsPageList = new ArrayList<BaseNewsCenterPage>();
-	protected NewsCenterData newsData;
-	
 	/**
-	 * 控制新闻中心子页面的显示, 可以在类外调用, 当在LeftMenuFragment中选择左侧按钮时调用这个函数来控制右侧内容的显示
+	 * 控制个界面中子页面的显示, 可以在类外调用, 当在LeftMenuFragment中选择左侧按钮时调用这个函数来控制右侧内容的显示
 	 * @param position
 	 */
 	public void switchPage(int position){
-		if(newsData != null) {
-			System.out.println("切换页面newsData.data.get(position).title,position = " + newsData.data.get(position).title + ", " + position);
-			textTitle.setText(newsData.data.get(position).title);
-			BaseNewsCenterPage bncpBaseNewsCenterPage = newsPageList.get(position);
-			flLayout.removeAllViews();
-			System.out.println("bncpBaseNewsCenterPage 类型" + bncpBaseNewsCenterPage.getClass().getName());
-			flLayout.addView(bncpBaseNewsCenterPage.getView());
-			for(BaseNewsCenterPage bncp : newsPageList){
-				System.out.println("遍历bncp 类型 " + bncp.getClass().getName());
-			
-			}
-		}else {
-			System.out.println("这个页面的数据还没加载,或加载失败");
-		}
 	}
 	
 }
