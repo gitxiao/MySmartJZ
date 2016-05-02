@@ -31,8 +31,8 @@ public class HomeTagPage extends BaseTagPage{
 		textTitle.setText(activity.getString(R.string.mainBtn1));
 		TextView tv = new TextView(activity);
 		tv.setText("主界面内容");
-//		tv.setTextColor(""#000000");
-		tv.setTextSize(25);
+//		tv.setColor("#000000");
+		tv.setTextSize(50);
 		tv.setGravity(Gravity.CENTER);
 		
 		flLayout.addView(tv);

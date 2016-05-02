@@ -98,8 +98,10 @@ public class NewsBaseNewsCenterPage extends BaseNewsCenterPage {
 			TextView tv = new TextView(mainActivity);
 			tv.setText(newsTagList.get(position).title);
 //			tv.setTextColor(""#000000");
-			tv.setTextSize(25);
+			tv.setTextSize(60);
 			tv.setGravity(Gravity.CENTER);
+			container.addView(tv);
+			System.out.println("container.getClass().getName() = " + container.getClass().getName());
 			return tv;
 //			return super.instantiateItem(container, position);
 		}

@@ -19,13 +19,14 @@
             android:background="@android:color/transparent"
             android:src="@drawable/img_menu" />
 
+        <!-- 主页大标题文字 -->
         <TextView
             android:id="@+id/textTitleInBaseContent"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
             android:text="@string/mainBtn1"
-            android:textColor="#ffffff"
+            android:textColor="@color/myColorGreen2"
             android:textSize="22sp" />
     </RelativeLayout>
 

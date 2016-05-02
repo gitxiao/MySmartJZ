@@ -1,0 +1,11 @@
+<resources>
+
+    
+    <color name="myColorRed1">#ff0000</color>
+    <color name="myColorRed2">#ff00ff</color>
+    <color name="myColorGreen1">#00ff00</color>
+    <color name="myColorGreen2">#669900</color>
+    <color name="myColorBlue1">#0000ff</color>
+    <color name="myColorBlue2">#006699</color>
+
+</resources>

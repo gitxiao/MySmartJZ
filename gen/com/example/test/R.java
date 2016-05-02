@@ -417,7 +417,7 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
         public static final int default_underline_indicator_fades=0x7f060004;
     }
     public static final class color {
-        public static final int btn_color=0x7f050011;
+        public static final int btn_color=0x7f050017;
         public static final int default_circle_indicator_fill_color=0x7f050008;
         public static final int default_circle_indicator_page_color=0x7f050009;
         public static final int default_circle_indicator_stroke_color=0x7f05000a;
@@ -427,7 +427,14 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
         public static final int default_title_indicator_selected_color=0x7f05000e;
         public static final int default_title_indicator_text_color=0x7f05000f;
         public static final int default_underline_indicator_selected_color=0x7f050010;
-        public static final int textview_left_color=0x7f050012;
+        public static final int myColorBlue1=0x7f050015;
+        public static final int myColorBlue2=0x7f050016;
+        public static final int myColorGreen1=0x7f050013;
+        public static final int myColorGreen2=0x7f050014;
+        public static final int myColorRed1=0x7f050011;
+        public static final int myColorRed2=0x7f050012;
+        public static final int news_tag_color=0x7f050018;
+        public static final int textview_left_color=0x7f050019;
         public static final int vpi__background_holo_dark=0x7f050000;
         public static final int vpi__background_holo_light=0x7f050001;
         public static final int vpi__bright_foreground_disabled_holo_dark=0x7f050004;
@@ -436,8 +443,8 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
         public static final int vpi__bright_foreground_holo_light=0x7f050003;
         public static final int vpi__bright_foreground_inverse_holo_dark=0x7f050006;
         public static final int vpi__bright_foreground_inverse_holo_light=0x7f050007;
-        public static final int vpi__dark_theme=0x7f050013;
-        public static final int vpi__light_theme=0x7f050014;
+        public static final int vpi__dark_theme=0x7f05001a;
+        public static final int vpi__light_theme=0x7f05001b;
     }
     public static final class dimen {
         /**  Default screen margins, per the Android Design guidelines. 

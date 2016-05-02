@@ -32,7 +32,7 @@ public class GovBaseTagPage extends BaseTagPage{
 		TextView tv = new TextView(activity);
 		tv.setText(R.string.mainBtn4);
 //		tv.setTextColor(""#000000");
-		tv.setTextSize(25);
+		tv.setTextSize(50);
 		tv.setGravity(Gravity.CENTER);
 		flLayout.addView(tv);
 		
