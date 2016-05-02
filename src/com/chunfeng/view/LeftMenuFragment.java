@@ -64,19 +64,44 @@ public class LeftMenuFragment extends BaseFragment {
 		adapter.notifyDataSetChanged();		//设置好数据后, 通知适配器进行刷新, 显示新的页面内容
 	}
 	
+	
+	/**
+	 * 接口, 右侧新闻界面的子页面实现这个借口后, 可以在LeftMenuFragment这里直接调用选择菜单后的页面切换, 而不用通过getMainContentFragment
+	 * @author Cfrjkj
+	 * @date 2016-5-2
+	 * @time 下午3:25:47
+	 * @todo TODO
+	 */
+	public interface OnLeftMenuSwitchListener{
+		void switchPageFromListener(int position);
+	}
+	
+	private  OnLeftMenuSwitchListener onLeftMenuSwitchListener;
+	public void setOnLeftMenuSwitchListener(OnLeftMenuSwitchListener onLeftMenuSwitchListener){
+		this.onLeftMenuSwitchListener = onLeftMenuSwitchListener;
+	}
+	
 	/**
 	 * 初始化4个TextView被按下时的事件
 	 */
 	public void initEvent(){
 		lvListView.setOnItemClickListener(new OnItemClickListener() {
 			@Override
-			public void onItemClick(AdapterView<?> arg0, View view, int arg2,
+			public void onItemClick(AdapterView<?> arg0, View view, int position,
 					long arg3) {
-				System.out.println("按下了左侧按钮 arg2 = " + arg2);
-				slectedIndex = arg2;
-				MainContentFragment mcf = ((MainActivity) getActivity()).getMainContentFragment();
-				mcf.switchChildPage(arg2);			//通知MainContentFragment,修改子页面的显示内容
-				((MainActivity) getActivity()).getSlidingMenu().toggle();	
+				System.out.println("按下了左侧按钮 arg2 = " + position);
+				slectedIndex = position;
+				
+				if(onLeftMenuSwitchListener != null) {
+					onLeftMenuSwitchListener.switchPageFromListener(position);
+				}else{
+//					MainContentFragment mcf = ((MainActivity) getActivity()).getMainContentFragment();
+//					mcf.switchChildPage(position);			//通知MainContentFragment,修改子页面的显示内容
+					System.out.println("此类没有实现这个接口");
+				}
+				
+				((MainActivity) getActivity()).getSlidingMenu().toggle();		//左侧菜单的伸缩	
+				
 				adapter.notifyDataSetChanged();		//通知adapter, listView中的item的状态发生了变化
 			}
 			

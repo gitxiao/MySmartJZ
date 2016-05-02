@@ -19,6 +19,7 @@ import com.chunfeng.newsCenterPage.NewsBaseNewsCenterPage;
 import com.chunfeng.newsCenterPage.PicturesBaseNewsCenterPage;
 import com.chunfeng.newsCenterPage.TopicBaseNewsCenterPage;
 import com.chunfeng.utils.MyConstants;
+import com.chunfeng.view.LeftMenuFragment.OnLeftMenuSwitchListener;
 import com.chunfeng.zhjz.activity.MainActivity;
 import com.example.test.R;
 import com.google.gson.Gson;
@@ -34,7 +35,7 @@ import com.lidroid.xutils.http.client.HttpRequest.HttpMethod;
  * @time 上午10:53:03
  * @todo 新闻中心主页面,处理包括http请求,数据解析,子页面显示逻辑等内容
  */
-public class NewsTagPage extends BaseTagPage{
+public class NewsTagPage extends BaseTagPage implements OnLeftMenuSwitchListener{
 
 	
 	private View privateView;
@@ -107,7 +108,8 @@ public class NewsTagPage extends BaseTagPage{
 		System.out.println("解析后的json数据: " + newsData.retcode);
 		System.out.println("解析后的json数据: " + newsData.data.get(0).children.get(0).title);
 		
-		activity.getLeftMenuFragment().setNewsData(newsData.data);
+		activity.getLeftMenuFragment().setNewsData(newsData.data);			//给左侧菜单传递数据(新闻,专题,组图,互动)
+		activity.getLeftMenuFragment().setOnLeftMenuSwitchListener(this);
 	
 		BaseNewsCenterPage bncp = null;
 		int index = 0;
@@ -131,7 +133,7 @@ public class NewsTagPage extends BaseTagPage{
 			}
 			newsPageList.add(bncp);
 		}
-		switchPage(0); 			//默认显示新闻的内容
+		switchPageFromSuper(0); 			//默认显示新闻的内容
 	}
 
 	protected List<BaseNewsCenterPage> newsPageList = new ArrayList<BaseNewsCenterPage>();
@@ -141,7 +143,7 @@ public class NewsTagPage extends BaseTagPage{
 	 * 控制新闻中心子页面的显示, 可以在类外调用, 当在LeftMenuFragment中选择左侧按钮时调用这个函数来控制右侧内容的显示
 	 * @param position
 	 */
-	public void switchPage(int position){
+	public void switchPageFromSuper(int position){
 		if(newsData != null) {
 			textTitle.setText(newsData.data.get(position).title);
 			BaseNewsCenterPage bncpBaseNewsCenterPage = newsPageList.get(position);
@@ -151,4 +153,20 @@ public class NewsTagPage extends BaseTagPage{
 			System.out.println("这个页面的数据还没加载,或加载失败");
 		}
 	}
+
+	/* (non-Javadoc)
+	 * @see com.chunfeng.view.LeftMenuFragment.OnLeftMenuSwitchListener#switchPageFromListener()
+	 */
+	@Override
+	public void switchPageFromListener(int position) {
+		if(newsData != null) {
+			textTitle.setText(newsData.data.get(position).title);
+			BaseNewsCenterPage bncpBaseNewsCenterPage = newsPageList.get(position);
+			flLayout.removeAllViews();
+			flLayout.addView(bncpBaseNewsCenterPage.getView());
+		}else {
+			System.out.println("这个页面的数据还没加载,或加载失败");
+		}
+	}
+
 }

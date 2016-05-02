@@ -103,7 +103,8 @@ public class BaseTagPage {
 	 * 控制个界面中子页面的显示, 可以在类外调用, 当在LeftMenuFragment中选择左侧按钮时调用这个函数来控制右侧内容的显示
 	 * @param position
 	 */
-	public void switchPage(int position){
+	public void switchPageFromSuper(int position){
+		System.out.println("子类没有覆盖这个函数");
 	}
 	
 }

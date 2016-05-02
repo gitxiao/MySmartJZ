@@ -141,7 +141,7 @@ System.out.println("onViewAttachedToWindow++++++++++++++++++++++++++++++++++++++
 	 * 选中的子页面显示,共四个子页面可选, 新闻,专题,组图,互动
 	 */
 	public void switchChildPage(int pageIndex){
-		pages.get(pageIndex).switchPage(pageIndex);
+		pages.get(pageIndex).switchPageFromSuper(pageIndex);
 	}
 	
 	public void initData(){
