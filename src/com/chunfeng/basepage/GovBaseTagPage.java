@@ -16,18 +16,18 @@ import com.example.test.R;
  * @time 上午10:53:03
  * @todo TODO
  */
-public class GovTagPage extends BaseTagPage{
+public class GovBaseTagPage extends BaseTagPage{
 
 	/**
 	 * @param context
 	 */
-	public GovTagPage(MainActivity context) {
+	public GovBaseTagPage(MainActivity context) {
 		super(context);
 	}
 
 	public void initData() {
 		//设置标题
-		textView.setText(activity.getString(R.string.mainBtn4));
+		textTitle.setText(activity.getString(R.string.mainBtn4));
 		
 		TextView tv = new TextView(activity);
 		tv.setText(R.string.mainBtn4);

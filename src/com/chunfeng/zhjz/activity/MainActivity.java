@@ -89,7 +89,7 @@ public class MainActivity extends SlidingFragmentActivity{
 	 * 可以从外部类, 或者从具有MainActivity上下文的类中获取MainActivity中的LeftMenuFragment
 	 * @return
 	 */
-	public MainContentFragment MainContentFragment(){
+	public MainContentFragment getMainContentFragment(){
 		FragmentManager fragmentManager = getSupportFragmentManager();
 		MainContentFragment mcfContentFragment = (MainContentFragment)fragmentManager.findFragmentByTag(TAG_MAIN_CONTENT);
 		return mcfContentFragment;

@@ -26,7 +26,7 @@ public class SmartTagPage extends BaseTagPage{
 	}
 
 	public void initData() {
-		textView.setText(activity.getString(R.string.mainBtn3));
+		textTitle.setText(activity.getString(R.string.mainBtn3));
 		TextView tv = new TextView(activity);
 		tv.setText(R.string.mainBtn3);
 //		tv.setTextColor(""#000000");

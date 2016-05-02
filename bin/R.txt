@@ -78,8 +78,8 @@ int id relativeLayout1 0x7f040007
 int id right 0x7f040001
 int id selected_view 0x7f040005
 int id slidingmenumain 0x7f040021
+int id textTitleInBaseContent 0x7f04001f
 int id textView1 0x7f040018
-int id textViewInBaseContent 0x7f04001f
 int id toggleButton1 0x7f04001c
 int id v_guide_redpoint 0x7f040009
 int id vp_guide_pages 0x7f040006

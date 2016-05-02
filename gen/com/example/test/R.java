@@ -202,8 +202,8 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
         public static final int right=0x7f040001;
         public static final int selected_view=0x7f040005;
         public static final int slidingmenumain=0x7f040021;
+        public static final int textTitleInBaseContent=0x7f04001f;
         public static final int textView1=0x7f040018;
-        public static final int textViewInBaseContent=0x7f04001f;
         public static final int toggleButton1=0x7f04001c;
         public static final int v_guide_redpoint=0x7f040009;
         public static final int vp_guide_pages=0x7f040006;

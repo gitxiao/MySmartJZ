@@ -26,7 +26,7 @@ public class SetTagPage extends BaseTagPage{
 	}
 
 	public void initData() {
-		textView.setText(activity.getString(R.string.mainBtn5));
+		textTitle.setText(activity.getString(R.string.mainBtn5));
 		TextView tv = new TextView(activity);
 		tv.setText(R.string.mainBtn5);
 //		tv.setTextColor(""#000000");

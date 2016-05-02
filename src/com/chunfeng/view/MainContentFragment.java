@@ -15,7 +15,7 @@ import android.widget.RadioGroup;
 import android.widget.RadioGroup.OnCheckedChangeListener;
 
 import com.chunfeng.basepage.BaseTagPage;
-import com.chunfeng.basepage.GovTagPage;
+import com.chunfeng.basepage.GovBaseTagPage;
 import com.chunfeng.basepage.HomeTagPage;
 import com.chunfeng.basepage.NewsTagPage;
 import com.chunfeng.basepage.SetTagPage;
@@ -35,6 +35,8 @@ import com.lidroid.xutils.view.annotation.ViewInject;
  * @当前版本: $Rev$
  */
 public class MainContentFragment extends BaseFragment {
+	
+	private BaseTagPage baseTagPage;	//当前显示的主页面对象
 	
 	private List<BaseTagPage> pages = new ArrayList<BaseTagPage>();
 	
@@ -91,7 +93,7 @@ public class MainContentFragment extends BaseFragment {
 				default:
 					break;
 				}
-				switchPage(pageIndex);
+				switchMainPage(pageIndex);
 			}
 
 		});
@@ -111,10 +113,10 @@ System.out.println("onViewAttachedToWindow++++++++++++++++++++++++++++++++++++++
 	}
 
 	/**
-	 * 选中的页面显示
+	 * 选中的主页面显示,一共五个页面可选,首页,新闻,智慧,政务,设置
 	 * @param pageIndex
 	 */
-	private void switchPage(int pageIndex) {
+	public void switchMainPage(int pageIndex) {
 //		View view1 = mainViewGroup.getRootView();
 //		mainViewGroup.removeView(view1);
 //		BaseTagPage btp = pages.get(pageIndex);		//取页面要从pageList中取, 而不是ViewPager中
@@ -136,12 +138,18 @@ System.out.println("onViewAttachedToWindow++++++++++++++++++++++++++++++++++++++
 //		.setSlidingEnabled(false);
 	}
 	
+	/**
+	 * 选中的子页面显示,共四个子页面可选, 新闻,专题,组图,互动
+	 */
+	public void switchChildPage(int pageIndex){
+		baseTagPage.switchPage(pageIndex);
+	}
 	
 	public void initData(){
 		pages.add(new HomeTagPage(getConainerActivity()));
 		pages.add(new NewsTagPage(getConainerActivity()));
 		pages.add(new SmartTagPage(getConainerActivity()));
-		pages.add(new GovTagPage(getConainerActivity()));
+		pages.add(new GovBaseTagPage(getConainerActivity()));
 		pages.add(new SetTagPage(getConainerActivity()));
 		
 		MyAdapter adapter = new MyAdapter();
@@ -157,6 +165,8 @@ System.out.println("onViewAttachedToWindow++++++++++++++++++++++++++++++++++++++
 	}
 	
 	private class MyAdapter extends PagerAdapter{
+
+		
 
 		@Override
 		public int getCount() {
@@ -182,7 +192,7 @@ System.out.println("销毁页面destroyItem position = " + position);
 		public Object instantiateItem(ViewGroup container, int position) {
 			// TODO Auto-generated method stub
 System.out.println("初始化页面 instantiateItem position = " + position);
-			BaseTagPage baseTagPage = pages.get(position);
+			baseTagPage = pages.get(position);
 			View rootView = baseTagPage.getRoot();
 			baseTagPage.initData();		//页面显示时才初始化数据, 而不是创建对象的时候
 			container.addView(rootView);

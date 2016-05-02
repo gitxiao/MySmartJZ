@@ -17,6 +17,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.chunfeng.dataLogic.NewsCenterData.NewsType;
+import com.chunfeng.zhjz.activity.MainActivity;
 import com.example.test.R;
 import com.lidroid.xutils.ViewUtils;
 import com.lidroid.xutils.view.annotation.ViewInject;
@@ -73,6 +74,9 @@ public class LeftMenuFragment extends BaseFragment {
 					long arg3) {
 				System.out.println("按下了左侧按钮 arg2 = " + arg2);
 				slectedIndex = arg2;
+				MainContentFragment mcf = ((MainActivity) getActivity()).getMainContentFragment();
+				mcf.switchChildPage(arg2);			//通知MainContentFragment,修改子页面的显示内容
+				((MainActivity) getActivity()).getSlidingMenu().toggle();	
 				adapter.notifyDataSetChanged();		//通知adapter, listView中的item的状态发生了变化
 			}
 			
@@ -114,10 +118,9 @@ public class LeftMenuFragment extends BaseFragment {
 			}else {
 				textView = (TextView)convertView;
 			}
-			textView.setText(dataList.get(position).title);
-			textView.setEnabled(position == slectedIndex);
+			textView.setText(dataList.get(position).title); 		//设置左侧菜单的按钮标题
+			textView.setEnabled(position == slectedIndex);			//选中的textView设为enabled状态
 			return textView;
 		}
-		
 	}
 }

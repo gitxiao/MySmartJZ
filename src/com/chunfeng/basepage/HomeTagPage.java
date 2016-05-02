@@ -28,7 +28,7 @@ public class HomeTagPage extends BaseTagPage{
 	public void initData() {
 		btnMenuButton.setVisibility(View.VISIBLE);
 		
-		textView.setText(activity.getString(R.string.mainBtn1));
+		textTitle.setText(activity.getString(R.string.mainBtn1));
 		TextView tv = new TextView(activity);
 		tv.setText("主界面内容");
 //		tv.setTextColor(""#000000");
