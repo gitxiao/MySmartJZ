@@ -518,7 +518,7 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
         public static final int vpi__tab_unselected_pressed_holo=0x7f02002d;
     }
     public static final class id {
-        public static final int action_settings=0x7f040029;
+        public static final int action_settings=0x7f04002e;
         public static final int bottom=0x7f040003;
         public static final int bt_guide_startexp=0x7f04000e;
         public static final int btnMenuInBaseContent=0x7f040022;
@@ -531,9 +531,12 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
         public static final int fullscreen=0x7f040008;
         public static final int imageViewLogo=0x7f04000f;
         public static final int indicatorRightButton=0x7f040026;
+        public static final int layout_news_content_main=0x7f040028;
         public static final int left=0x7f040005;
         public static final int listViewInLeftMenu=0x7f04001b;
         public static final int ll_guide_points=0x7f04000c;
+        public static final int ll_news_content_points=0x7f04002b;
+        public static final int lv_news_content_detail=0x7f04002c;
         public static final int mainBtnGov=0x7f040017;
         public static final int mainBtnHome=0x7f040014;
         public static final int mainBtnNews=0x7f040015;
@@ -550,15 +553,17 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
         public static final int relativeLayout1=0x7f04000b;
         public static final int right=0x7f040006;
         public static final int selected_view=0x7f040009;
-        public static final int slidingmenumain=0x7f040028;
+        public static final int slidingmenumain=0x7f04002d;
         public static final int textTitleInBaseContent=0x7f040023;
         public static final int textView1=0x7f04001c;
         public static final int toggleButton1=0x7f040020;
         public static final int top=0x7f040004;
         public static final int triangle=0x7f040001;
+        public static final int tv_news_content_picinfo=0x7f04002a;
         public static final int underline=0x7f040002;
         public static final int v_guide_redpoint=0x7f04000d;
         public static final int vp_guide_pages=0x7f04000a;
+        public static final int vp_news_content_lunbo=0x7f040029;
         public static final int vp_pages_main=0x7f040012;
     }
     public static final class integer {
@@ -580,7 +585,8 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
         public static final int fragment_main_basecontent=0x7f030008;
         public static final int leftmenu_list_textview=0x7f030009;
         public static final int ll_news_simple_tabs=0x7f03000a;
-        public static final int slidingmenumain=0x7f03000b;
+        public static final int news_pager_content=0x7f03000b;
+        public static final int slidingmenumain=0x7f03000c;
     }
     public static final class menu {
         public static final int main=0x7f0b0000;

@@ -9,15 +9,13 @@ import java.util.List;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v4.view.ViewPager.OnPageChangeListener;
-import android.view.Gravity;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
-import android.widget.TextView;
 
 import com.chunfeng.dataLogic.NewsCenterData;
 import com.chunfeng.dataLogic.NewsCenterData.NewsType.NewsTag;
+import com.chunfeng.newsChildPage.VPINewsChildPage;
 import com.chunfeng.zhjz.activity.MainActivity;
 import com.example.test.R;
 import com.lidroid.xutils.ViewUtils;
@@ -70,7 +68,7 @@ public class NewsBaseNewsCenterPage extends BaseNewsCenterPage {
 //		tv.setGravity(Gravity.CENTER);
 		
 		ll_simpleTabs = View.inflate(mainActivity, R.layout.ll_news_simple_tabs, null);
-		ViewUtils.inject(this,ll_simpleTabs);
+		ViewUtils.inject(this, ll_simpleTabs);
         
 		return ll_simpleTabs;
 	}
@@ -151,14 +149,22 @@ public class NewsBaseNewsCenterPage extends BaseNewsCenterPage {
 		
 		@Override
 		public Object instantiateItem(ViewGroup container, int position) {
-			TextView tv = new TextView(mainActivity);
-			tv.setText(newsTagList.get(position).title + "内容");
-//			tv.setTextColor(""#000000");
-			tv.setTextSize(60);
-			tv.setGravity(Gravity.CENTER);
-			container.addView(tv);
+//			TextView view = new TextView(mainActivity);
+//			view.setText(newsTagList.get(position).title + "内容");
+////			view.setTextColor(""#000000");
+//			view.setTextSize(60);
+//			view.setGravity(Gravity.CENTER);
+//			container.addView(view);
+			
+//			View view = View.inflate(mainActivity, R.id.layout_news_content_main, null);
+//			ViewUtils.inject(this,view);
+			
+			VPINewsChildPage vpiNcp = new VPINewsChildPage(mainActivity);
+			View view = vpiNcp.getRootView();
+			
+			container.addView(view);
 			System.out.println("container.getClass().getName() = " + container.getClass().getName());
-			return tv;
+			return view;
 //			return super.instantiateItem(container, position);
 		}
 		
