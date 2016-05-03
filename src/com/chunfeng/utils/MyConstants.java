@@ -11,4 +11,5 @@ public interface MyConstants {
 	public static final String SAVED_DATA = "savedData";
 	public static final String IS_SETUP = "isSetUp";//名字
 	
+	public static final String HTTP_DATA = "httpData";		//用于缓存httpS数据
 }

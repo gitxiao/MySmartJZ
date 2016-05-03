@@ -6,14 +6,14 @@ package com.chunfeng.newsCenterPage;
 import java.util.ArrayList;
 import java.util.List;
 
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.support.v4.view.ViewPager.OnPageChangeListener;
 import android.view.Gravity;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
 import android.widget.TextView;
 
 import com.chunfeng.dataLogic.NewsCenterData;
@@ -22,6 +22,7 @@ import com.chunfeng.zhjz.activity.MainActivity;
 import com.example.test.R;
 import com.lidroid.xutils.ViewUtils;
 import com.lidroid.xutils.view.annotation.ViewInject;
+import com.lidroid.xutils.view.annotation.event.OnClick;
 import com.viewpagerindicator.TabPageIndicator;
 
 /**
@@ -37,6 +38,15 @@ public class NewsBaseNewsCenterPage extends BaseNewsCenterPage {
 	
 	@ViewInject(R.id.newsIndicator)
 	private TabPageIndicator pageIndicator;
+	
+	@ViewInject(R.id.indicatorRightButton)
+	private ImageButton btnRightArr;
+	
+	@OnClick(R.id.indicatorRightButton) 			//直接注入button的点击事件
+	public void nextTag(View v){
+		System.out.println("ImageButton被点击了 2 v :" + v.getClass().getName());
+		newsViewpager.setCurrentItem(newsViewpager.getCurrentItem() + 1);
+	}
 	
 	private View ll_simpleTabs;			//布局文件	
 	
@@ -63,6 +73,52 @@ public class NewsBaseNewsCenterPage extends BaseNewsCenterPage {
 		ViewUtils.inject(this,ll_simpleTabs);
         
 		return ll_simpleTabs;
+	}
+	
+
+/**
+ * 	
+	注意ViewPagerIndicator的用法:用indicator代替viewpager来设置事件监听
+		(Optional) If you use an OnPageChangeListener with your view pager you should set it in the indicator rather than on the pager directly.
+			continued from above
+		 titleIndicator.setOnPageChangeListener(mPageChangeListener);
+		 
+	用viewpager来设置事件监听也会无效, 因为indicator在setViewPager时会把viewpager的事件监听器清除.参照ViewPagerIndicator的源代码(应该先设置事件监听, 再调用setViewPager)
+ */
+	public void initEvent(){
+		
+		pageIndicator.setOnPageChangeListener(new OnPageChangeListener() {
+//		newsViewpager.setOnPageChangeListener(new OnPageChangeListener() {
+			
+			@Override
+			public void onPageSelected(int position) {
+				if(position != 0) {
+					mainActivity.getSlidingMenu().setSlidingEnabled(false);
+				}else{
+					mainActivity.getSlidingMenu().setSlidingEnabled(true);
+				}
+			}
+			
+			@Override
+			public void onPageScrolled(int position, float positionOffset,
+					int positionOffsetPixels) {
+				
+			}
+			
+			@Override
+			public void onPageScrollStateChanged(int state) {
+				
+			}
+		});
+		
+//		btnRightArr.setOnClickListener(new OnClickListener() {
+//			
+//			@Override
+//			public void onClick(View arg0) {
+//				System.out.println("ImageButton被点击了 1");
+//				newsViewpager.setCurrentItem(newsViewpager.getCurrentItem() + 1);
+//			}
+//		});
 	}
 	
 	/**
@@ -96,7 +152,7 @@ public class NewsBaseNewsCenterPage extends BaseNewsCenterPage {
 		@Override
 		public Object instantiateItem(ViewGroup container, int position) {
 			TextView tv = new TextView(mainActivity);
-			tv.setText(newsTagList.get(position).title);
+			tv.setText(newsTagList.get(position).title + "内容");
 //			tv.setTextColor(""#000000");
 			tv.setTextSize(60);
 			tv.setGravity(Gravity.CENTER);

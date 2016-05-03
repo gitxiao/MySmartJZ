@@ -15,7 +15,7 @@ import android.view.animation.ScaleAnimation;
 import android.widget.ImageView;
 
 import com.chunfeng.utils.MyConstants;
-import com.chunfeng.utils.Sptools;
+import com.chunfeng.utils.SPTools;
 import com.example.test.R;
 
 public class LogoActivity extends Activity {
@@ -56,7 +56,7 @@ public class LogoActivity extends Activity {
 			public void onAnimationEnd(Animation arg0) {
 				// TODO Auto-generated method stub
 				System.out.println("动画播放完毕");
-				if(Sptools.getBoolean(LogoActivity.this, MyConstants.IS_SETUP, false)){
+				if(SPTools.getBoolean(LogoActivity.this, MyConstants.IS_SETUP, false)){
 					System.out.println("如果已经设置过, 直接进入主界面");
 					Intent intent = new Intent(LogoActivity.this,MainActivity.class);
 					LogoActivity.this.startActivity(intent);

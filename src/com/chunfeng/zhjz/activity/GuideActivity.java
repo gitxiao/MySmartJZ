@@ -8,7 +8,7 @@ import java.util.List;
 
 import com.chunfeng.utils.DensityUtil;
 import com.chunfeng.utils.MyConstants;
-import com.chunfeng.utils.Sptools;
+import com.chunfeng.utils.SPTools;
 import com.example.test.R;
 
 import android.annotation.SuppressLint;
@@ -98,7 +98,7 @@ public class GuideActivity extends Activity {
 			
 			@Override
 			public void onClick(View arg0) {
-				Sptools.setBoolean(GuideActivity.this, MyConstants.IS_SETUP, true);
+				SPTools.setBoolean(GuideActivity.this, MyConstants.IS_SETUP, true);
 				Intent intent = new Intent(GuideActivity.this,MainActivity.class);
 				GuideActivity.this.startActivity(intent);
 				GuideActivity.this.finish();

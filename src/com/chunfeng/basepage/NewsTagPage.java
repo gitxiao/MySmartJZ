@@ -19,6 +19,7 @@ import com.chunfeng.newsCenterPage.NewsBaseNewsCenterPage;
 import com.chunfeng.newsCenterPage.PicturesBaseNewsCenterPage;
 import com.chunfeng.newsCenterPage.TopicBaseNewsCenterPage;
 import com.chunfeng.utils.MyConstants;
+import com.chunfeng.utils.SPTools;
 import com.chunfeng.view.LeftMenuFragment.OnLeftMenuSwitchListener;
 import com.chunfeng.zhjz.activity.MainActivity;
 import com.example.test.R;
@@ -76,14 +77,25 @@ public class NewsTagPage extends BaseTagPage implements OnLeftMenuSwitchListener
 	 * @param <T>
 	 */
 	private <T> void initHttpData() {
+		//获取网络数据之前先取出本地缓存的数据
+		String cacheString = SPTools.getString(activity, MyConstants.HTTP_DATA, null);
+		System.out.println("缓存的数据: cacheString = " + cacheString);
+		if(cacheString != null) {
+			parseJsonData(cacheString);
+		}else {
+			//可以在这里添加一个loading提示
+			System.out.println("还没有缓存数据");
+		}
+		
 		HttpUtils httpUtils = new HttpUtils();
 		try {
 			httpUtils.send(HttpMethod.GET, MyConstants.STR_NEWS_CENTER_, new RequestCallBack<T>(){
 				
 				@Override
 				public void onSuccess(ResponseInfo<T> responseInfo) {
-//					System.out.println("网络访问成功 responseInfo.result = " + responseInfo.result);				
+					System.out.println("网络访问成功 responseInfo.result = " + responseInfo.result);				
 					parseJsonData((String)(responseInfo.result));
+					SPTools.setString(activity, MyConstants.HTTP_DATA, (String)(responseInfo.result));
 				}
 				
 				@Override
@@ -102,7 +114,9 @@ public class NewsTagPage extends BaseTagPage implements OnLeftMenuSwitchListener
 	 * @param jsonData
 	 */
 	protected void parseJsonData(String jsonData){
-		Gson gson = new Gson();
+		if(gson == null){  	//parseJsonData可能会被执行两次, 要避免多次创建gson对象
+			gson = new Gson();
+		}
 		newsData = gson.fromJson(jsonData, NewsCenterData.class);
 	
 		System.out.println("解析后的json数据: " + newsData.retcode);
@@ -138,6 +152,7 @@ public class NewsTagPage extends BaseTagPage implements OnLeftMenuSwitchListener
 
 	protected List<BaseNewsCenterPage> newsPageList = new ArrayList<BaseNewsCenterPage>();
 	protected NewsCenterData newsData;
+	private Gson gson;
 	
 	/**
 	 * 控制新闻中心子页面的显示, 可以在类外调用, 当在LeftMenuFragment中选择左侧按钮时调用这个函数来控制右侧内容的显示
