@@ -13,8 +13,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
 
-import com.chunfeng.dataLogic.NewsCenterData;
-import com.chunfeng.dataLogic.NewsCenterData.NewsType.NewsTag;
+import com.chunfeng.dataLogic.NewsBasicData;
+import com.chunfeng.dataLogic.NewsBasicData.NewsType.NewsTag;
 import com.chunfeng.newsChildPage.VPINewsChildPage;
 import com.chunfeng.zhjz.activity.MainActivity;
 import com.example.test.R;
@@ -48,7 +48,7 @@ public class NewsBaseNewsCenterPage extends BaseNewsCenterPage {
 	
 	private View ll_simpleTabs;			//布局文件	
 	
-	private List<NewsCenterData.NewsType.NewsTag> newsTagList = new ArrayList<NewsCenterData.NewsType.NewsTag>();
+	private List<NewsBasicData.NewsType.NewsTag> newsTagList = new ArrayList<NewsBasicData.NewsType.NewsTag>();
 	
 	/**
 	 * @param activity
@@ -159,7 +159,7 @@ public class NewsBaseNewsCenterPage extends BaseNewsCenterPage {
 //			View view = View.inflate(mainActivity, R.id.layout_news_content_main, null);
 //			ViewUtils.inject(this,view);
 			
-			VPINewsChildPage vpiNcp = new VPINewsChildPage(mainActivity);
+			VPINewsChildPage vpiNcp = new VPINewsChildPage(mainActivity,newsTagList.get(position));
 			View view = vpiNcp.getRootView();
 			
 			container.addView(view);

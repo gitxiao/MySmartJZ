@@ -14,7 +14,7 @@ import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
-import com.chunfeng.dataLogic.NewsCenterData;
+import com.chunfeng.dataLogic.NewsBasicData;
 import com.chunfeng.newsCenterPage.BaseNewsCenterPage;
 import com.chunfeng.zhjz.activity.MainActivity;
 import com.example.test.R;

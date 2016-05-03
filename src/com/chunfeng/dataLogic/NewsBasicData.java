@@ -11,7 +11,7 @@ import java.util.List;
  * @time 上午11:01:15
  * @todo 新闻json数据的封装
  */
-public class NewsCenterData {
+public class NewsBasicData {
 	
 	//属性名字必须与将要解析的json数据中的键值完全一致,区分大小写
 	public int retcode;

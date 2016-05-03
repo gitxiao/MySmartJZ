@@ -16,7 +16,7 @@ import android.widget.BaseAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import com.chunfeng.dataLogic.NewsCenterData.NewsType;
+import com.chunfeng.dataLogic.NewsBasicData.NewsType;
 import com.chunfeng.zhjz.activity.MainActivity;
 import com.example.test.R;
 import com.lidroid.xutils.ViewUtils;

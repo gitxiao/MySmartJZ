@@ -11,8 +11,8 @@ import android.view.Gravity;
 import android.view.View;
 import android.widget.TextView;
 
-import com.chunfeng.dataLogic.NewsCenterData;
-import com.chunfeng.dataLogic.NewsCenterData.NewsType;
+import com.chunfeng.dataLogic.NewsBasicData;
+import com.chunfeng.dataLogic.NewsBasicData.NewsType;
 import com.chunfeng.newsCenterPage.BaseNewsCenterPage;
 import com.chunfeng.newsCenterPage.InteractBaseNewsCenterPage;
 import com.chunfeng.newsCenterPage.NewsBaseNewsCenterPage;
@@ -78,7 +78,7 @@ public class NewsTagPage extends BaseTagPage implements OnLeftMenuSwitchListener
 	 */
 	private <T> void initHttpData() {
 		//获取网络数据之前先取出本地缓存的数据
-		String cacheString = SPTools.getString(activity, MyConstants.HTTP_DATA, null);
+		String cacheString = SPTools.getString(activity, MyConstants.NEWS_BASIC_DATA, null);
 		System.out.println("缓存的数据: cacheString = " + cacheString);
 		if(cacheString != null) {
 			parseJsonData(cacheString);
@@ -89,13 +89,13 @@ public class NewsTagPage extends BaseTagPage implements OnLeftMenuSwitchListener
 		
 		HttpUtils httpUtils = new HttpUtils();
 		try {
-			httpUtils.send(HttpMethod.GET, MyConstants.STR_NEWS_CENTER_, new RequestCallBack<T>(){
+			httpUtils.send(HttpMethod.GET, MyConstants.URL_NEWS_CENTER_, new RequestCallBack<T>(){
 				
 				@Override
 				public void onSuccess(ResponseInfo<T> responseInfo) {
 					System.out.println("网络访问成功 responseInfo.result = " + responseInfo.result);				
 					parseJsonData((String)(responseInfo.result));
-					SPTools.setString(activity, MyConstants.HTTP_DATA, (String)(responseInfo.result));
+					SPTools.setString(activity, MyConstants.NEWS_BASIC_DATA, (String)(responseInfo.result));
 				}
 				
 				@Override
@@ -117,7 +117,7 @@ public class NewsTagPage extends BaseTagPage implements OnLeftMenuSwitchListener
 		if(gson == null){  	//parseJsonData可能会被执行两次, 要避免多次创建gson对象
 			gson = new Gson();
 		}
-		newsData = gson.fromJson(jsonData, NewsCenterData.class);
+		newsData = gson.fromJson(jsonData, NewsBasicData.class);
 	
 		System.out.println("解析后的json数据: " + newsData.retcode);
 		System.out.println("解析后的json数据: " + newsData.data.get(0).children.get(0).title);
@@ -151,7 +151,7 @@ public class NewsTagPage extends BaseTagPage implements OnLeftMenuSwitchListener
 	}
 
 	protected List<BaseNewsCenterPage> newsPageList = new ArrayList<BaseNewsCenterPage>();
-	protected NewsCenterData newsData;
+	protected NewsBasicData newsData;
 	private Gson gson;
 	
 	/**
