@@ -28,15 +28,20 @@ public class ListViewRefreshable extends ListView {
 	private View tailView;
 	private LinearLayout headView;
 	private LinearLayout headContainer;
-	private int topPadding;
-	private int bottomPadding;
+	private int heightOfHead;
+	private int heightOfTail;
 	private float downX;
-	private float downY;
-	private float moveY;
+	private float downY = -1;
+	private float moveY = -1;
 	private View lunbotu;
 	
 	private int listViewPosY;
 
+	private final int STATE_PULLDOWN = 0;	//下拉刷新
+	private final int STATE_RELEASE = 1;	//松开刷新
+	private final int STATE_REFRESHING = 2;	//正在刷新
+	private int currentState = -1;			//当前状态
+	
 	/**
 	 * @param context
 	 * @param attrs
@@ -85,8 +90,8 @@ public class ListViewRefreshable extends ListView {
 		tailView = View.inflate(getContext(), R.layout.listview_refresh_tail, null);
 //		ViewUtils.inject(getContext(), tailView);
 		tailView.measure(0, 0);
-		bottomPadding = -tailView.getMeasuredHeight();
-		tailView.setPadding(0, 0, 0, bottomPadding);
+		heightOfTail = tailView.getMeasuredHeight();
+		tailView.setPadding(0, 0, 0, -heightOfTail);
 //		this.setPadding(0, topPadding, 0, bottomPadding);
 		this.addFooterView(tailView);
 	}
@@ -101,12 +106,43 @@ public class ListViewRefreshable extends ListView {
 		headView = (LinearLayout) headContainer.findViewById(R.id.ll_listview_head_root);
 //		ViewUtils.inject(getContext(), headView);
 		headView.measure(0, 0);
-		topPadding = -headView.getMeasuredHeight();
-		headView.setPadding(0, topPadding, 0, 0);
+		heightOfHead = headView.getMeasuredHeight();
+		headView.setPadding(0, -heightOfHead, 0, 0);
 //		this.setPadding(0, topPadding, 0, bottomPadding);
 		this.addHeaderView(headContainer);
 	}
 
+	/**
+	 * 判断轮播图是否完全显示
+	 * @return
+	 */
+	private boolean isLunboFullShow(){
+		
+		if(listViewPosY == 0) {
+			int[] location1 = new int[2];
+			this.getLocationOnScreen(location1);
+			listViewPosY = location1[1];
+		}
+		//如果轮播图没有完全显示, 不响应自己的事件,由父组件处理事件
+		//1.取出listview的坐标和轮播图的坐标
+		//2.判断两个坐标大小
+		
+		int[] location2 = new int[2];
+		lunbotu.getLocationOnScreen(location2);
+		
+		if(location2[1] < listViewPosY){
+			//轮播图没有完全显示
+			return false;
+		}
+		return true;
+	}
+	
+	/**
+	 * 滑动listview的逻辑处理
+	 */
+	private void listViewMoveLogic(){
+		
+	}
 	
 	@Override
 	public boolean onTouchEvent(MotionEvent ev) {
@@ -119,37 +155,41 @@ public class ListViewRefreshable extends ListView {
 //			downY = ev.getY();
 			break;
 		case MotionEvent.ACTION_UP:
-			headView.setPadding(0, topPadding, 0, 0);
+			downY = -1;
+			moveY = -1;
+			headView.setPadding(0, -heightOfHead, 0, 0);
 			break;
 		case MotionEvent.ACTION_CANCEL:
+			downY = -1;
+			moveY = -1;
 			break;
 		case MotionEvent.ACTION_MOVE:
-			{	//如果轮播图没有完全显示, 不响应自己的事件,由父组件处理事件
-				//1.取出listview的坐标和轮播图的坐标
-				//2.判断两个坐标大小
-				if(listViewPosY == 0) {
-					int[] location1 = new int[2];
-					this.getLocationOnScreen(location1);
-					listViewPosY = location1[1];
-				}
-				
-				int[] location2 = new int[2];
-				lunbotu.getLocationOnScreen(location2);
-				
-				if(location2[1] < listViewPosY){
-					//轮播图没有完全显示
-					System.out.println("轮播图没有完全显示");
-					return super.onTouchEvent(ev);
-				}
+			
+			if(!isLunboFullShow()){
+				//轮播没有完全显示
+				break;
 			}
 			
+			//防止按下时没有获取到坐标
+			if(downY == -1){
+				downY = ev.getY();
+			}
 			moveY = ev.getY();
-			if(moveY > downY && this.getFirstVisiblePosition() == 0){
-				if(topPadding + (moveY - downY) <= -topPadding / 2){
-					headView.setPadding(0, (int) (topPadding + (moveY - downY)), 0, 0);
-				
+			float dy = moveY - downY;
+			if(dy > 0 && this.getFirstVisiblePosition() == 0){
+				if(dy <= heightOfHead && currentState != STATE_PULLDOWN){
+					System.out.println("下拉刷新");
+					currentState = STATE_PULLDOWN;
+				}else if(dy > heightOfHead && currentState != STATE_RELEASE){
+					currentState = STATE_RELEASE;
+					System.out.println("不能拉出太多,松开刷新");
+				}else{
+					
 				}
+				headView.setPadding(0, (int) (dy - heightOfHead), 0, 0);
 				return true;
+			}else{
+				System.out.println("往上拉或者第一条内容没有显示");
 			}
 			break;
 		}
@@ -159,3 +199,6 @@ public class ListViewRefreshable extends ListView {
 	}
 	
 }
+
+
+
