@@ -7,9 +7,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 import android.graphics.Bitmap.Config;
+import android.os.Handler;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager.OnPageChangeListener;
+import android.view.MotionEvent;
 import android.view.View;
+import android.view.View.OnClickListener;
+import android.view.View.OnTouchListener;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.ImageView.ScaleType;
@@ -67,7 +71,15 @@ public class VPINewsChildPage {
 	private BitmapUtils bitmapUtils;
 	private int picSelectIndex;
 	private NewsDetailData detailData;
+	private LunboTask lunboTask = new LunboTask();
+	private int delayTime = 2000;
 	
+//	final Handler handler = new Handler(){
+//		public void handleMessage(android.os.Message msg){
+//			//主线程中执行
+//			System.out.println("handleMessage");
+//		}
+//	};
 	
 	public VPINewsChildPage(MainActivity mainActivity,NewsBasicData.NewsType.NewsTag newsTag){
 		this.mainActivity = mainActivity;
@@ -177,9 +189,59 @@ public class VPINewsChildPage {
 		initPoints(detailData);
 		
 		//3.设置图片描述文字和点的选中效果,这个函数应该在页面切换事件中调用
-		setPicDescAndPointSelect(detailData,picSelectIndex);
+//		setPicDescAndPointSelect(detailData,picSelectIndex);
+		
+		//4.轮播图的自动播放
+//		lunboProcess();
+		lunboTask.startTask(2000);
 	}
 
+
+	/**
+	 * 处理轮播图
+	 */
+//	private void lunboProcess() {
+//		
+//		final int delayTime = 1000;
+//		//发消息之前先清空之前的消息
+//		handler.removeCallbacksAndMessages(null);	
+//		handler.postDelayed(new Runnable() {
+//			@Override
+//			public void run() {
+//				//这里用的是消息机制, 不是新建了一个线程, 还是主线程
+//				//每隔一秒播放下个一轮播图
+//				vp_lunbo.setCurrentItem((vp_lunbo.getCurrentItem() + 1) % vp_lunbo.getAdapter().getCount());
+//
+//				//消息发出后再循环发出
+//				handler.postDelayed(this, delayTime);		
+//			}
+//		}, delayTime);
+//	}
+
+
+	private class LunboTask extends Handler implements Runnable{
+
+		private int delayTime;
+		public void stopTask(){
+			removeCallbacksAndMessages(null);
+		}
+		public void startTask(int delayTime){
+			stopTask();
+			this.delayTime = delayTime;
+			postDelayed(this, delayTime);
+		}
+		
+		@Override
+		public void run() {
+			//这里用的是消息机制, 不是新建了一个线程, 还是主线程
+			//每隔一秒播放下个一轮播图
+			vp_lunbo.setCurrentItem((vp_lunbo.getCurrentItem() + 1) % vp_lunbo.getAdapter().getCount());
+
+			//消息发出后再循环发出
+			postDelayed(this, delayTime);	
+		}
+		
+	}
 
 	/**
 	 * 设置轮播图的描述信息和点选择状态
@@ -246,22 +308,53 @@ public class VPINewsChildPage {
 //			return super.instantiateItem(container, position);
 			
 //			System.out.println("加载本地图片 position = " + position + ", " + System.currentTimeMillis());
-			ImageView imageViewTemp = new ImageView(mainActivity);
+			ImageView iv_lunbo_pic = new ImageView(mainActivity);
 			//设置默认图片,防止网速较慢. 好像不起作用???
-			imageViewTemp.setImageResource(R.drawable.home_scroll_default);
-			imageViewTemp.setScaleType(ScaleType.FIT_XY);  		//设置图片显示适配坐标
+			iv_lunbo_pic.setImageResource(R.drawable.home_scroll_default);
+			iv_lunbo_pic.setScaleType(ScaleType.FIT_XY);  		//设置图片显示适配坐标
 			
 //			ImageView httpImageView = null;
 			String urlString = lunboDataList.get(position).topimage;
 			String newUrlString = urlString.replaceAll(MyConstants.OLD_IP, MyConstants.NEW_IP);
 			//异步加载网络图片并显示
 //			System.out.println("加载网络图片 position = " + position + ", "  + System.currentTimeMillis());
-			bitmapUtils.display(imageViewTemp, newUrlString);
-			container.addView(imageViewTemp);
+			bitmapUtils.display(iv_lunbo_pic, newUrlString);
 			
+			iv_lunbo_pic.setOnTouchListener(new OnTouchListener() {
+				@Override
+				public boolean onTouch(View arg0, MotionEvent arg1) {
+					
+					switch (arg1.getAction()) {
+					case MotionEvent.ACTION_DOWN:
+						
+						lunboTask.stopTask();
+						break;
+					case MotionEvent.ACTION_MOVE:
+						lunboTask.stopTask();
+						break;
+					case MotionEvent.ACTION_UP:
+						lunboTask.startTask(delayTime);
+						break;
+					case MotionEvent.ACTION_CANCEL:
+						//手指滑动后离开屏幕时会触发这个事件
+						lunboTask.startTask(delayTime);
+						break;
+					default:
+						break;
+					}
+					return false;		//false表示其的监听可以获取事件, 如果不想让其他监听器获取事件, 就返回true
+				}
+			});
+			iv_lunbo_pic.setOnClickListener(new OnClickListener() {
+				@Override
+				public void onClick(View arg0) {
+					System.out.println("图片被单击了");
+				}
+			});
 			
+			container.addView(iv_lunbo_pic);
 //			System.out.println("返回图片 position = " + position + ", "  + System.currentTimeMillis());
-			return imageViewTemp;
+			return iv_lunbo_pic;
 		}
 
 		@Override
