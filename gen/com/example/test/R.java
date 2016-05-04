@@ -519,7 +519,7 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
         public static final int vpi__tab_unselected_pressed_holo=0x7f02002e;
     }
     public static final class id {
-        public static final int action_settings=0x7f04002e;
+        public static final int action_settings=0x7f040032;
         public static final int bottom=0x7f040003;
         public static final int bt_guide_startexp=0x7f04000e;
         public static final int btnMenuInBaseContent=0x7f040022;
@@ -532,6 +532,8 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
         public static final int fullscreen=0x7f040008;
         public static final int imageViewLogo=0x7f04000f;
         public static final int indicatorRightButton=0x7f040026;
+        public static final int iv_vpi_news_listview_item_icon=0x7f040031;
+        public static final int iv_vpi_news_listview_item_pic=0x7f04002e;
         public static final int layout_news_content_main=0x7f040028;
         public static final int left=0x7f040005;
         public static final int listViewInLeftMenu=0x7f04001b;
@@ -561,6 +563,8 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
         public static final int top=0x7f040004;
         public static final int triangle=0x7f040001;
         public static final int tv_news_content_picinfo=0x7f04002a;
+        public static final int tv_vpi_news_listview_item_time=0x7f040030;
+        public static final int tv_vpi_news_listview_item_title=0x7f04002f;
         public static final int underline=0x7f040002;
         public static final int v_guide_redpoint=0x7f04000d;
         public static final int vp_guide_pages=0x7f04000a;
@@ -588,6 +592,7 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
         public static final int ll_news_simple_tabs=0x7f03000a;
         public static final int news_pager_content=0x7f03000b;
         public static final int slidingmenumain=0x7f03000c;
+        public static final int vpi_news_listview_item=0x7f03000d;
     }
     public static final class menu {
         public static final int main=0x7f0b0000;

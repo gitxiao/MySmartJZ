@@ -1,6 +1,3 @@
-/**
- * 
- */
 package com.chunfeng.newsChildPage;
 
 import java.util.ArrayList;
@@ -15,6 +12,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.View.OnTouchListener;
 import android.view.ViewGroup;
+import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.ImageView.ScaleType;
 import android.widget.LinearLayout;
@@ -70,9 +68,13 @@ public class VPINewsChildPage {
 	private LunBoAdapter lunBoAdapter;
 	private BitmapUtils bitmapUtils;
 	private int picSelectIndex;
-	private NewsDetailData detailData;
 	private LunboTask lunboTask = new LunboTask();
 	private int delayTime = 2000;
+	
+	
+	private NewsDetailData newsDetailData;
+	private List<NewsDetailData.Detail.News> listNews = new ArrayList<NewsDetailData.Detail.News>();
+	private ListNewsAdapter listNewsAdapter;
 	
 //	final Handler handler = new Handler(){
 //		public void handleMessage(android.os.Message msg){
@@ -114,10 +116,15 @@ public class VPINewsChildPage {
 	public void initData(){
 		//这些数据只需要初始化一次
 		gson = new Gson();
+		
+		//轮播图的适配器
 		lunBoAdapter = new LunBoAdapter();
 		vp_lunbo.setAdapter(lunBoAdapter);
 		vp_lunbo.setOnPageChangeListener(new LunBoListener());
-//		vp_lunbo.requestParentDisallowInterceptTouchEvent(true);
+		
+		//新闻列表的适配器
+		listNewsAdapter = new ListNewsAdapter();
+		listViewNews.setAdapter(listNewsAdapter);		
 		
 		//获取网络数据之前先取出本地缓存的数据
 		String cacheString = SPTools.getString(mainActivity, newsTag.url, null);		//因为数据比较多, 所以用url作为数据存储的key值
@@ -135,6 +142,28 @@ public class VPINewsChildPage {
 	 */
 	public void initEvent() {
 		
+	}
+	
+	/**
+	 * 处理数据并显示
+	 * @param detailData
+	 */
+	private void operateData(NewsDetailData detailData){
+		//1.设置轮播图的数据
+		setLunboData(detailData);
+		
+		//2.轮播图对应点的处理
+		initPoints(detailData);
+		
+		//3.设置图片描述文字和点的选中效果,这个函数应该在页面切换事件中调用
+//		setPicDescAndPointSelect(detailData,picSelectIndex);
+		
+		//4.轮播图的自动播放
+//		lunboProcess();
+		lunboTask.startTask(2000);
+		
+		//5.处理新闻列表的数据
+		setListViewNewsData(detailData);
 	}
 	
 	/**
@@ -172,31 +201,24 @@ public class VPINewsChildPage {
 	 * @param jsonData
 	 */
 	private NewsDetailData parseJsonData(String jsonData){
-		detailData = gson.fromJson(jsonData, NewsDetailData.class);
+		newsDetailData = gson.fromJson(jsonData, NewsDetailData.class);
 		
-		return detailData;
+		return newsDetailData;
 	}
 	
+	
+
+
 	/**
-	 * 处理数据并显示
-	 * @param detailData
+	 * 设置新闻列表的数据
+	 * @param detailData2
 	 */
-	private void operateData(NewsDetailData detailData){
-		//1.设置轮播图的数据
-		setLunboData(detailData);
-		
-		//2.轮播图对应点的处理
-		initPoints(detailData);
-		
-		//3.设置图片描述文字和点的选中效果,这个函数应该在页面切换事件中调用
-//		setPicDescAndPointSelect(detailData,picSelectIndex);
-		
-		//4.轮播图的自动播放
-//		lunboProcess();
-		lunboTask.startTask(2000);
+	private void setListViewNewsData(NewsDetailData detailData2) {
+		listNews = detailData2.data.news;
+		listNewsAdapter.notifyDataSetChanged();
 	}
 
-
+	
 	/**
 	 * 处理轮播图
 	 */
@@ -288,6 +310,7 @@ public class VPINewsChildPage {
 		lunBoAdapter.notifyDataSetChanged();
 	}
 	
+	
 	/**
 	 * 轮播图的适配器
 	 */
@@ -364,6 +387,7 @@ public class VPINewsChildPage {
 		}
 	}
 	
+	
 	/**
 	 * 监听轮播图的翻页状态
 	 * @author Cfrjkj
@@ -387,13 +411,80 @@ public class VPINewsChildPage {
 //				mainActivity.getSlidingMenu().setSlidingEnabled(false);
 //			}
 			picSelectIndex = position;		//点的选中状态
-			setPicDescAndPointSelect(detailData,position);
+			setPicDescAndPointSelect(newsDetailData,position);
 		}
 
 		@Override
 		public void onPageScrollStateChanged(int state) {
 			
 		}
-		
 	}
+	
+	//------------------------------------ListView-------------------------------->>>
+	private class ListNewsAdapter extends BaseAdapter{
+
+		@Override
+		public int getCount() {
+			/*
+			 * 写成这样的话,作用相同, 但是因为没有获取到网络数据时,
+			 * newsDetailData可能为空,所以其data.news也为空, 在这里会报空指针异常
+			 */
+//			return newsDetailData.data.news.size();	
+			return listNews.size();
+		}
+
+		@Override
+		public Object getItem(int arg0) {
+			// TODO Auto-generated method stub
+			return null;
+		}
+
+		@Override
+		public long getItemId(int arg0) {
+			// TODO Auto-generated method stub
+			return 0;
+		}
+
+		@Override
+		public View getView(int position, View converView, ViewGroup parent) {
+			ListViewHolder holder = null;
+			if(converView == null){
+				//没有缓存视图
+				converView = View.inflate(mainActivity, R.layout.vpi_news_listview_item, null);
+				holder = new ListViewHolder();
+				holder.iv_con = (ImageView)converView.findViewById(R.id.iv_vpi_news_listview_item_icon);
+				holder.iv_newPic = (ImageView) converView.findViewById(R.id.iv_vpi_news_listview_item_pic);
+				holder.tv_time = (TextView)converView.findViewById(R.id.tv_vpi_news_listview_item_time);
+				holder.tv_title = (TextView)converView.findViewById(R.id.tv_vpi_news_listview_item_title);
+				converView.setTag(holder);
+			}else{
+				holder = (ListViewHolder)converView.getTag();
+			}
+			
+			//设置数据
+//			listNewsData = newsDetailData.data.news.get(position);
+			holder.tv_title.setText(listNews.get(position).title);
+			holder.tv_time.setText(listNews.get(position).pubdate);
+			
+			String urlOld = listNews.get(position).listimage;
+			String urlNew = urlOld.replaceAll(MyConstants.OLD_IP, MyConstants.NEW_IP);
+			bitmapUtils.display(holder.iv_newPic, urlNew);
+			return converView;
+		}
+	}
+	
+	/**
+	 * ListView的holder
+	 * @author Cfrjkj
+	 * @date 2016-5-4
+	 * @time 下午12:01:24
+	 * @todo TODO
+	 */
+	private class ListViewHolder{
+		private ImageView iv_newPic;
+		private ImageView iv_con;
+		private TextView tv_title;
+		private TextView tv_time;
+	}
+	//------------------------------------ListView--------------------------------<<<
 }
