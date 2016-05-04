@@ -5,10 +5,10 @@
     android:layout_height="match_parent"
     android:orientation="vertical" >
 
-    <ListView 
+    <com.chunfeng.utils.ListViewRefreshable 
         android:id="@+id/lv_news_content_detail"
         android:cacheColorHint="#00000000"
         android:layout_height="wrap_content"
-        android:layout_width="match_parent"></ListView>
+        android:layout_width="match_parent"></com.chunfeng.utils.ListViewRefreshable>
     
 </LinearLayout>

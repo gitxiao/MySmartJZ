@@ -62,7 +62,7 @@ public class VPINewsChildPage {
 	private LinearLayout ll_points;					//轮播图顺序点
 	
 	@ViewInject(R.id.lv_news_content_detail)
-	private ListView listViewNews;					//显示新闻的listView
+	private com.chunfeng.utils.ListViewRefreshable listViewNews;					//显示新闻的listView
 	
 	
 	
@@ -113,7 +113,8 @@ public class VPINewsChildPage {
 		//listView.轮播图head
 		View lunboPicView = View.inflate(mainActivity, R.layout.rl_lunbo_pic, null);
 		ViewUtils.inject(this, lunboPicView);
-		listViewNews.addHeaderView(lunboPicView);
+//		listViewNews.addHeaderView(lunboPicView);
+		listViewNews.myAddHeadView(lunboPicView);
 		return view;
 	}
 
@@ -131,7 +132,7 @@ public class VPINewsChildPage {
 		
 		//新闻列表的适配器
 		listNewsAdapter = new ListNewsAdapter();
-		listViewNews.setAdapter(listNewsAdapter);		
+		listViewNews.setAdapter(listNewsAdapter);
 		
 		//获取网络数据之前先取出本地缓存的数据
 		String cacheString = SPTools.getString(mainActivity, newsTag.url, null);		//因为数据比较多, 所以用url作为数据存储的key值

@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:gravity="center"
+    android:id="@+id/ll_listview_head_root"
+    android:orientation="horizontal" >
+
+    <!-- 刷新和箭头的图片 -->
+
+    <FrameLayout 
+        android:padding="5dp"
+        android:layout_height="wrap_content"
+        android:layout_width="wrap_content">
+		
+		<ImageView android:id="@+id/iv_listview_head_arr"
+		    android:src="@drawable/common_listview_headview_red_arrow"
+		    android:layout_gravity="center"
+		    android:layout_height="wrap_content"
+		    android:layout_width="wrap_content"/>        
+
+		<ProgressBar android:id="@+id/pb_listview_head_loading"
+		    android:indeterminateDrawable="@drawable/progressstyleshape"
+		    android:layout_width="wrap_content"
+		    android:layout_height="wrap_content"/>
+		
+    </FrameLayout>
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:gravity="center"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" >
+		
+        <TextView android:id="@+id/tv_listview_head_state"
+            android:text="下拉刷新"
+            android:textSize="22dp"
+            android:textColor="#ff0000"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+        
+        <TextView android:id="@+id/tv_listview_head_state"
+            android:text="刷新时间"
+            android:textSize="18dp"
+            android:textColor="@android:color/darker_gray"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
+    </LinearLayout>
+    <!-- 两个文本,状态描述和更新时间 -->
+
+</LinearLayout>
