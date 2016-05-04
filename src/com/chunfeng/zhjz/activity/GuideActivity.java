@@ -26,7 +26,6 @@ import android.view.Window;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.LinearLayout.LayoutParams;
 import android.widget.RelativeLayout;
 
 /**
@@ -168,7 +167,7 @@ public class GuideActivity extends Activity {
 //			View v_pointView = new View(this);
 			v_pointView.setBackgroundResource(R.drawable.gray_point);
 //
-			LayoutParams lParam = new LayoutParams(DensityUtil.dip2px(this.getApplicationContext(), 10), DensityUtil.dip2px(this.getApplicationContext(), 10)); //默认单位是像素px, 不是dp
+			 android.widget.LinearLayout.LayoutParams lParam = new  android.widget.LinearLayout.LayoutParams(DensityUtil.dip2px(this.getApplicationContext(), 10), DensityUtil.dip2px(this.getApplicationContext(), 10)); //默认单位是像素px, 不是dp
 //			//点与点之间的空隙
 			if(i != 0) {
 				lParam.leftMargin = DensityUtil.dip2px(this.getApplicationContext(), 10);

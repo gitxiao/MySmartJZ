@@ -9,11 +9,11 @@
         android:layout_width="match_parent"
         android:layout_height="175dp" >
 
-        <android.support.v4.view.ViewPager
+        <com.chunfeng.utils.ViewPagerSuperNotIntereptEvent
             android:id="@+id/vp_news_content_lunbo"
             android:layout_width="match_parent"
-        	android:layout_height="match_parent">
-        </android.support.v4.view.ViewPager>
+        	android:layout_height="wrap_content">
+        </com.chunfeng.utils.ViewPagerSuperNotIntereptEvent>
         
 <!--             android:background="@drawable/bottom_tab_bg" -->
         <RelativeLayout

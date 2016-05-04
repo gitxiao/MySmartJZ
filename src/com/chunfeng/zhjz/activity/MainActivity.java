@@ -4,7 +4,6 @@
 package com.chunfeng.zhjz.activity;
 
 import com.chunfeng.utils.DensityUtil;
-import com.chunfeng.utils.ViewPagerOperator;
 import com.chunfeng.view.LeftMenuFragment;
 import com.chunfeng.view.MainContentFragment;
 import com.example.test.R;
