@@ -3,18 +3,20 @@
  */
 package com.chunfeng.utils;
 
-import com.example.test.R;
-import com.lidroid.xutils.ViewUtils;
-
-import android.R.integer;
 import android.annotation.SuppressLint;
-import android.app.LocalActivityManager;
 import android.content.Context;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.RotateAnimation;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.ProgressBar;
+import android.widget.TextView;
+
+import com.example.test.R;
 
 /**
  * @author Cfrjkj
@@ -41,6 +43,12 @@ public class ListViewRefreshable extends ListView {
 	private final int STATE_RELEASE = 1;	//松开刷新
 	private final int STATE_REFRESHING = 2;	//正在刷新
 	private int currentState = -1;			//当前状态
+	private TextView textViewState;
+	private TextView textViewTime;
+	private ImageView ivArrow;
+	private ProgressBar pbRefresh;
+	private RotateAnimation upRAnimation;
+	private RotateAnimation downRAnimation;
 	
 	/**
 	 * @param context
@@ -50,6 +58,7 @@ public class ListViewRefreshable extends ListView {
 	public ListViewRefreshable(Context context, AttributeSet attrs, int defStyle) {
 		super(context, attrs, defStyle);
 		initView();
+		initAnimation();
 	}
 
 	/**
@@ -101,14 +110,25 @@ public class ListViewRefreshable extends ListView {
 	 */
 	@SuppressLint("NewApi")
 	private void initHead(){
-		//尾部加到listview中
+		//头部加到listview中
+		//头部的容器
 		headContainer = (LinearLayout) View.inflate(getContext(), R.layout.listview_refresh_head_container, null);
+		//从容器中拿到headview
 		headView = (LinearLayout) headContainer.findViewById(R.id.ll_listview_head_root);
-//		ViewUtils.inject(getContext(), headView);
+		//这一行可以没有
+//		ViewUtils.inject(getContext(), headView);	
+		
+		//拿到需要控制的组件
+		textViewState = (TextView) headView.findViewById(R.id.tv_listview_head_state);
+		textViewTime = (TextView) headView.findViewById(R.id.tv_listview_head_time);
+		ivArrow = (ImageView) headView.findViewById(R.id.iv_listview_head_arr);
+		pbRefresh = (ProgressBar) headView.findViewById(R.id.pb_listview_head_loading);
+		
 		headView.measure(0, 0);
 		heightOfHead = headView.getMeasuredHeight();
 		headView.setPadding(0, -heightOfHead, 0, 0);
 //		this.setPadding(0, topPadding, 0, bottomPadding);
+
 		this.addHeaderView(headContainer);
 	}
 
@@ -205,9 +225,13 @@ public class ListViewRefreshable extends ListView {
 		switch (currentState) {
 		case STATE_PULLDOWN:
 			System.out.println("下拉刷新");
+			textViewState.setText("下拉刷新");
+			ivArrow.startAnimation(downRAnimation);
 			break;
 		case STATE_RELEASE:
+			textViewState.setText("松开刷新");
 			System.out.println("不能拉出太多,松开刷新");
+			ivArrow.startAnimation(upRAnimation);
 			break;
 		case STATE_REFRESHING:
 			break;
@@ -216,6 +240,15 @@ public class ListViewRefreshable extends ListView {
 		}
 	}
 	
+	private void initAnimation(){
+		upRAnimation = new RotateAnimation(0, -180, Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0.5f);
+		upRAnimation.setDuration(500);
+		upRAnimation.setFillAfter(true);
+
+		downRAnimation = new RotateAnimation(-180, 0, Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0.5f);
+		downRAnimation.setDuration(500);
+		downRAnimation.setFillAfter(true);
+	}
 }
 
 

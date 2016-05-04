@@ -521,7 +521,7 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
         public static final int vpi__tab_unselected_pressed_holo=0x7f020030;
     }
     public static final class id {
-        public static final int action_settings=0x7f040038;
+        public static final int action_settings=0x7f040039;
         public static final int bottom=0x7f040003;
         public static final int bt_guide_startexp=0x7f04000e;
         public static final int btnMenuInBaseContent=0x7f040022;
@@ -533,17 +533,17 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
         public static final int fl_main_content_tag=0x7f040010;
         public static final int fullscreen=0x7f040008;
         public static final int imageViewLogo=0x7f04000f;
-        public static final int indicatorRightButton=0x7f04002e;
+        public static final int indicatorRightButton=0x7f04002f;
         public static final int iv_listview_head_arr=0x7f040026;
-        public static final int iv_vpi_news_listview_item_icon=0x7f040037;
-        public static final int iv_vpi_news_listview_item_pic=0x7f040034;
-        public static final int layout_news_content_main=0x7f04002b;
+        public static final int iv_vpi_news_listview_item_icon=0x7f040038;
+        public static final int iv_vpi_news_listview_item_pic=0x7f040035;
+        public static final int layout_news_content_main=0x7f04002c;
         public static final int left=0x7f040005;
         public static final int listViewInLeftMenu=0x7f04001b;
         public static final int ll_guide_points=0x7f04000c;
         public static final int ll_listview_head_root=0x7f040025;
-        public static final int ll_news_content_points=0x7f040032;
-        public static final int lv_news_content_detail=0x7f04002c;
+        public static final int ll_news_content_points=0x7f040033;
+        public static final int lv_news_content_detail=0x7f04002d;
         public static final int mainBtnGov=0x7f040017;
         public static final int mainBtnHome=0x7f040014;
         public static final int mainBtnNews=0x7f040015;
@@ -551,32 +551,33 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
         public static final int mainBtnSmart=0x7f040016;
         public static final int mainContentView=0x7f040011;
         public static final int margin=0x7f040007;
-        public static final int newsIndicator=0x7f04002d;
-        public static final int newsViewpager=0x7f04002f;
+        public static final int newsIndicator=0x7f04002e;
+        public static final int newsViewpager=0x7f040030;
         public static final int none=0x7f040000;
         public static final int pb_listview_head_loading=0x7f040027;
-        public static final int pb_listview_tail_loading=0x7f040029;
+        public static final int pb_listview_tail_loading=0x7f04002a;
         public static final int progressBar1=0x7f04001f;
         public static final int radioGroup_main=0x7f040013;
         public static final int ratingBar1=0x7f040021;
         public static final int relativeLayout1=0x7f04000b;
         public static final int right=0x7f040006;
         public static final int selected_view=0x7f040009;
-        public static final int slidingmenumain=0x7f040033;
+        public static final int slidingmenumain=0x7f040034;
         public static final int textTitleInBaseContent=0x7f040023;
         public static final int textView1=0x7f04001c;
         public static final int toggleButton1=0x7f040020;
         public static final int top=0x7f040004;
         public static final int triangle=0x7f040001;
         public static final int tv_listview_head_state=0x7f040028;
-        public static final int tv_listview_tail=0x7f04002a;
-        public static final int tv_news_content_picinfo=0x7f040031;
-        public static final int tv_vpi_news_listview_item_time=0x7f040036;
-        public static final int tv_vpi_news_listview_item_title=0x7f040035;
+        public static final int tv_listview_head_time=0x7f040029;
+        public static final int tv_listview_tail=0x7f04002b;
+        public static final int tv_news_content_picinfo=0x7f040032;
+        public static final int tv_vpi_news_listview_item_time=0x7f040037;
+        public static final int tv_vpi_news_listview_item_title=0x7f040036;
         public static final int underline=0x7f040002;
         public static final int v_guide_redpoint=0x7f04000d;
         public static final int vp_guide_pages=0x7f04000a;
-        public static final int vp_news_content_lunbo=0x7f040030;
+        public static final int vp_news_content_lunbo=0x7f040031;
         public static final int vp_pages_main=0x7f040012;
     }
     public static final class integer {
