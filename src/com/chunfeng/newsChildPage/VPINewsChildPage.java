@@ -3,8 +3,10 @@ package com.chunfeng.newsChildPage;
 import java.util.ArrayList;
 import java.util.List;
 
+import android.annotation.SuppressLint;
 import android.graphics.Bitmap.Config;
 import android.os.Handler;
+import android.os.SystemClock;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager.OnPageChangeListener;
 import android.view.MotionEvent;
@@ -16,12 +18,13 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.ImageView.ScaleType;
 import android.widget.LinearLayout;
-import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.chunfeng.dataLogic.NewsBasicData;
 import com.chunfeng.dataLogic.NewsDetailData;
 import com.chunfeng.utils.DensityUtil;
+import com.chunfeng.utils.ListViewRefreshable.OnRefreshDataListener;
 import com.chunfeng.utils.MyConstants;
 import com.chunfeng.utils.SPTools;
 import com.chunfeng.utils.ViewPagerSuperNotIntereptEvent;
@@ -128,7 +131,6 @@ public class VPINewsChildPage {
 		//轮播图的适配器
 		lunBoAdapter = new LunBoAdapter();
 		vp_lunbo.setAdapter(lunBoAdapter);
-		vp_lunbo.setOnPageChangeListener(new LunBoListener());
 		
 		//新闻列表的适配器
 		listNewsAdapter = new ListNewsAdapter();
@@ -142,14 +144,24 @@ public class VPINewsChildPage {
 			//可以在这里添加一个loading提示
 			System.out.println("还没有缓存数据" + MyConstants.NEWS_DETAIL_DATA);
 		}
-		initHttpData(newsTag.url);
+		
+		getHttpData();
 	}
 	
+	private boolean isRefresh;
 	/**
 	 * 
 	 */
 	public void initEvent() {
-		
+		listViewNews.setOnRefreshDataListener(new OnRefreshDataListener(){
+
+			@Override
+			public void refreshData() {
+				isRefresh = true;
+				getHttpData();
+			}
+		});
+		vp_lunbo.setOnPageChangeListener(new LunBoPageChangeListener());
 	}
 	
 	/**
@@ -178,8 +190,9 @@ public class VPINewsChildPage {
 	 * 获取网络数据
 	 * @param <T>
 	 */
-	private <T> void initHttpData(final String url) {
-		
+	@SuppressLint("ShowToast")
+	private <T> void getHttpData() {
+		final String url = newsTag.url;
 		HttpUtils httpUtils = new HttpUtils();
 		
 		try {
@@ -187,16 +200,29 @@ public class VPINewsChildPage {
 				
 				@Override
 				public void onSuccess(ResponseInfo<T> responseInfo) {
+//					SystemClock.sleep(1000);
 					System.out.println("网络访问成功");				
 					NewsDetailData detailData = parseJsonData((String)(responseInfo.result));
 					SPTools.setString(mainActivity, url, (String)(responseInfo.result));
 					operateData(detailData);
+					
+					//刷新数据后通知listView进行状态改变
+					if(isRefresh){
+						listViewNews.refreshStateFinish();	
+					}
+					Toast.makeText(mainActivity, "获取网络数据成功", 1).show();
 				}
 				
 				@Override
 				public void onFailure(HttpException error, String msg) {
-					System.out.println("网络访问失败 msg = " + msg);				
-					operateData(null); 		//网络访问失败也要进行对应的操作
+					System.out.println("网络访问失败 msg = " + msg);		
+					//网络访问失败也要进行对应的操作
+					operateData(null); 		
+					//刷新数据后通知listView进行状态改变
+					if(isRefresh){
+						listViewNews.refreshStateFinish();	
+					}
+					Toast.makeText(mainActivity, "获取网络数据失败", 1).show();
 				}
 			});
 		} catch (Exception e) {
@@ -222,8 +248,10 @@ public class VPINewsChildPage {
 	 * @param detailData2
 	 */
 	private void setListViewNewsData(NewsDetailData detailData2) {
-		listNews = detailData2.data.news;
-		listNewsAdapter.notifyDataSetChanged();
+		if(detailData2 != null){
+			listNews = detailData2.data.news;
+			listNewsAdapter.notifyDataSetChanged();
+		}
 	}
 
 	
@@ -265,10 +293,12 @@ public class VPINewsChildPage {
 		public void run() {
 			//这里用的是消息机制, 不是新建了一个线程, 还是主线程
 			//每隔一秒播放下个一轮播图
-			vp_lunbo.setCurrentItem((vp_lunbo.getCurrentItem() + 1) % vp_lunbo.getAdapter().getCount());
+			if(vp_lunbo.getAdapter().getCount() > 0){
+				vp_lunbo.setCurrentItem((vp_lunbo.getCurrentItem() + 1) % vp_lunbo.getAdapter().getCount());
+				//消息发出后再循环发出
+				postDelayed(this, delayTime);	
+			}
 
-			//消息发出后再循环发出
-			postDelayed(this, delayTime);	
 		}
 		
 	}
@@ -288,6 +318,9 @@ public class VPINewsChildPage {
 	 * 几个轮播图的点
 	 */
 	private void initPoints(NewsDetailData detailData) {
+		if(detailData == null) {
+			return;
+		}
 		this.ll_points.removeAllViews();		//切换页面后需要先清空以前的点, 再生成新的点
 		for (int i = 0; i < detailData.data.topnews.size(); i++) {
 			View v_pointView = new View(mainActivity);
@@ -403,7 +436,7 @@ public class VPINewsChildPage {
 	 * @time 下午9:38:49
 	 * @todo TODO
 	 */
-	private class LunBoListener implements OnPageChangeListener{
+	private class LunBoPageChangeListener implements OnPageChangeListener{
 
 		@Override
 		public void onPageScrolled(int position, float positionOffset,

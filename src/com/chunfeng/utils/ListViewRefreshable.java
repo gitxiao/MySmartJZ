@@ -3,6 +3,9 @@
  */
 package com.chunfeng.utils;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.util.AttributeSet;
@@ -49,6 +52,7 @@ public class ListViewRefreshable extends ListView {
 	private ProgressBar pbRefresh;
 	private RotateAnimation upRAnimation;
 	private RotateAnimation downRAnimation;
+	private OnRefreshDataListener listener;
 	
 	/**
 	 * @param context
@@ -177,7 +181,16 @@ public class ListViewRefreshable extends ListView {
 		case MotionEvent.ACTION_UP:
 			downY = -1;
 			moveY = -1;
-			headView.setPadding(0, -heightOfHead, 0, 0);
+			if(currentState == STATE_PULLDOWN){
+				headView.setPadding(0, -heightOfHead, 0, 0);
+			}else if(currentState == STATE_RELEASE){
+				headView.setPadding(0, 0, 0, 0);
+				currentState = STATE_REFRESHING;
+				refreshRefreshState();	//刷新界面
+				if(this.listener != null){
+					this.listener.refreshData();
+				}
+			}
 			break;
 		case MotionEvent.ACTION_CANCEL:
 			downY = -1;
@@ -219,6 +232,29 @@ public class ListViewRefreshable extends ListView {
 	}
 
 	/**
+	 * 刷新数据成功
+	 */
+	public void refreshStateFinish(){
+		//下拉刷新
+		System.out.println("refreshStateFinish 刷新结束");
+		//改变页面状态
+		textViewState.setText("下拉刷新");
+		ivArrow.setVisibility(View.VISIBLE);
+		pbRefresh.setVisibility(View.INVISIBLE);
+		textViewTime.setText(getCurrentFromDate());
+		headView.setPadding(0, -heightOfHead, 0, 0);
+	}
+	
+	/**
+	 * @return
+	 */
+	@SuppressLint("SimpleDateFormat")
+	private CharSequence getCurrentFromDate() {
+		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd  HH:mm:ss");
+		return format.format(new Date());
+	}
+
+	/*
 	 * 刷新状态切换
 	 */
 	private void refreshRefreshState() {
@@ -227,15 +263,25 @@ public class ListViewRefreshable extends ListView {
 			System.out.println("下拉刷新");
 			textViewState.setText("下拉刷新");
 			ivArrow.startAnimation(downRAnimation);
+			ivArrow.setVisibility(View.VISIBLE);
+			pbRefresh.setVisibility(View.GONE);
 			break;
 		case STATE_RELEASE:
 			textViewState.setText("松开刷新");
 			System.out.println("不能拉出太多,松开刷新");
 			ivArrow.startAnimation(upRAnimation);
+			ivArrow.setVisibility(View.VISIBLE);
+			pbRefresh.setVisibility(View.GONE);
 			break;
 		case STATE_REFRESHING:
+			System.out.println("正在刷新");
+			ivArrow.clearAnimation();
+			ivArrow.setVisibility(View.GONE);
+			pbRefresh.setVisibility(View.VISIBLE);
+			textViewState.setText("正在刷新");
 			break;
 		default:
+			System.out.println("refreshRefreshState 其他情况");
 			break;
 		}
 	}
@@ -248,6 +294,21 @@ public class ListViewRefreshable extends ListView {
 		downRAnimation = new RotateAnimation(-180, 0, Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0.5f);
 		downRAnimation.setDuration(500);
 		downRAnimation.setFillAfter(true);
+	}
+	
+	/**
+	 * 刷新数据的监听器, 需要刷新数据的类中实现这个接口, 就可以调用这里的数据刷新方法
+	 * @author Cfrjkj
+	 * @date 2016-5-4
+	 * @time 下午10:28:12
+	 * @todo TODO
+	 */
+	public interface OnRefreshDataListener{
+		void refreshData();
+	}
+	
+	public void setOnRefreshDataListener(OnRefreshDataListener listener){
+		this.listener = listener;
 	}
 }
 
