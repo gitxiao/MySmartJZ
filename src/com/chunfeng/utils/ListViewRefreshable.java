@@ -176,13 +176,13 @@ public class ListViewRefreshable extends ListView {
 			}
 			moveY = ev.getY();
 			float dy = moveY - downY;
-			if(dy > 0 && this.getFirstVisiblePosition() == 0){
+			if(dy >= 0 && this.getFirstVisiblePosition() == 0){
 				if(dy <= heightOfHead && currentState != STATE_PULLDOWN){
-					System.out.println("下拉刷新");
-					currentState = STATE_PULLDOWN;
+					currentState = STATE_PULLDOWN;	//加上状态判断后, 状态变化只执行一次,方便对view的操作更新
+					refreshRefreshState();
 				}else if(dy > heightOfHead && currentState != STATE_RELEASE){
 					currentState = STATE_RELEASE;
-					System.out.println("不能拉出太多,松开刷新");
+					refreshRefreshState();
 				}else{
 					
 				}
@@ -196,6 +196,24 @@ public class ListViewRefreshable extends ListView {
 		
 		System.out.println("由listview处理事件");
 		return super.onTouchEvent(ev);
+	}
+
+	/**
+	 * 刷新状态切换
+	 */
+	private void refreshRefreshState() {
+		switch (currentState) {
+		case STATE_PULLDOWN:
+			System.out.println("下拉刷新");
+			break;
+		case STATE_RELEASE:
+			System.out.println("不能拉出太多,松开刷新");
+			break;
+		case STATE_REFRESHING:
+			break;
+		default:
+			break;
+		}
 	}
 	
 }
