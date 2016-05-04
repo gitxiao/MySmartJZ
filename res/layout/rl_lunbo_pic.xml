@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" >
+        android:layout_height="175dp" >
 
     	
 <!--android:layout_height="match_parent"  下面这个viewPager设置match_parent不起作用, 
@@ -10,7 +10,7 @@
         <com.chunfeng.utils.ViewPagerSuperNotIntereptEvent
             android:id="@+id/vp_news_content_lunbo"
             android:layout_width="match_parent"
-        	android:layout_height="wrap_content">
+        	android:layout_height="175dp">
         </com.chunfeng.utils.ViewPagerSuperNotIntereptEvent>
         
 <!--             android:background="@drawable/bottom_tab_bg" -->
