@@ -64,6 +64,8 @@ public class VPINewsChildPage {
 	@ViewInject(R.id.lv_news_content_detail)
 	private ListView listViewNews;					//显示新闻的listView
 	
+	
+	
 	private List<NewsDetailData.Detail.Topnews> lunboDataList = new ArrayList<NewsDetailData.Detail.Topnews>();
 	private LunBoAdapter lunBoAdapter;
 	private BitmapUtils bitmapUtils;
@@ -105,8 +107,13 @@ public class VPINewsChildPage {
 	 * 
 	 */
 	public View initView() {
-		View view = View.inflate(mainActivity, R.layout.news_pager_content, null);
+		View view = View.inflate(mainActivity, R.layout.ll_listview_news, null);
 		ViewUtils.inject(this, view);
+		
+		//listView.轮播图head
+		View lunboPicView = View.inflate(mainActivity, R.layout.rl_lunbo_pic, null);
+		ViewUtils.inject(this, lunboPicView);
+		listViewNews.addHeaderView(lunboPicView);
 		return view;
 	}
 

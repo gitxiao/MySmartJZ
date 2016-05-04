@@ -1,14 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/layout_news_content_main"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical" >
-
-    <RelativeLayout
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
-        android:layout_height="175dp" >
+        android:layout_height="wrap_content" >
 
+    	
+<!--android:layout_height="match_parent"  下面这个viewPager设置match_parent不起作用, 
+	原因是否因为父组件设置了高度为175dp?
+-->
         <com.chunfeng.utils.ViewPagerSuperNotIntereptEvent
             android:id="@+id/vp_news_content_lunbo"
             android:layout_width="match_parent"
@@ -48,11 +46,5 @@
                 android:layout_height="wrap_content" >
             </LinearLayout>
         </RelativeLayout>
-    </RelativeLayout>
-
-    <ListView 
-        android:id="@+id/lv_news_content_detail"
-        android:cacheColorHint="#00000000"
-        android:layout_height="wrap_content"
-        android:layout_width="match_parent"></ListView>
-</LinearLayout>
+        
+</RelativeLayout>
