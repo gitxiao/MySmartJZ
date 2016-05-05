@@ -153,7 +153,7 @@ public class VPINewsChildPage {
 			System.out.println("还没有缓存数据" + MyConstants.NEWS_DETAIL_DATA);
 		}
 		
-		getHttpData(MyConstants.URL_SERVER + newsTag.url);
+		getHttpData(MyConstants.URL_SERVER + newsTag.url,false);
 	}
 	
 	private boolean isRefresh;
@@ -166,7 +166,7 @@ public class VPINewsChildPage {
 			@Override
 			public void refreshData() {
 				isRefresh = true;
-				getHttpData(MyConstants.URL_SERVER + newsTag.url);
+				getHttpData(MyConstants.URL_SERVER + newsTag.url,false);
 			}
 
 			@Override
@@ -184,7 +184,7 @@ public class VPINewsChildPage {
 					Toast.makeText(mainActivity, "没有更多数据", Toast.LENGTH_SHORT).show();
 					listViewNews.refreshStateFinish();
 				}else{
-					getHttpData(loadingMoreUrl);
+					getHttpData(loadingMoreUrl,true);
 				}
 			}
 
@@ -221,7 +221,7 @@ public class VPINewsChildPage {
 	 * @param <T>
 	 */
 	@SuppressLint("ShowToast")
-	private <T> void getHttpData(final String url) {
+	private <T> void getHttpData(final String url,final boolean isLoadingMore) {
 		HttpUtils httpUtils = new HttpUtils();
 		
 		System.out.println("访问网络url = " + url);
@@ -237,7 +237,7 @@ public class VPINewsChildPage {
 					
 					operateData(detailData);
 					//刷新数据后通知listView进行状态改变
-					if(url.equals(loadingMoreUrl)){
+					if(isLoadingMore){
 						System.out.println("加载更多数据成功");
 						listNews.addAll(newsDetailData.data.news);
 						listNewsAdapter.notifyDataSetChanged();
@@ -249,13 +249,6 @@ public class VPINewsChildPage {
 						listViewNews.refreshStateFinish();	
 					}
 					
-					if(!TextUtils.isEmpty(newsDetailData.data.more)){
-						loadingMoreUrl = MyConstants.URL_SERVER + newsDetailData.data.more;
-						System.out.println("getHttpData 加载更多数据的url = " + loadingMoreUrl);
-					}else{
-						loadingMoreUrl = null;
-						System.out.println("getHttpData 本次刷新后没有更多数据");
-					}
 					Toast.makeText(mainActivity, "获取网络数据成功", Toast.LENGTH_SHORT).show();
 				}
 				
@@ -284,7 +277,13 @@ public class VPINewsChildPage {
 	 */
 	private NewsDetailData parseJsonData(String jsonData){
 		newsDetailData = gson.fromJson(jsonData, NewsDetailData.class);
-		
+		if(!TextUtils.isEmpty(newsDetailData.data.more)){
+			loadingMoreUrl = MyConstants.URL_SERVER + newsDetailData.data.more;
+			System.out.println("parseJsonData 加载更多数据的url = " + loadingMoreUrl);
+		}else{
+			loadingMoreUrl = null;
+			System.out.println("parseJsonData 本次刷新后没有更多数据");
+		}
 		return newsDetailData;
 	}
 	
