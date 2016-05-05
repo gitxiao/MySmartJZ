@@ -81,7 +81,11 @@ public class ListViewRefreshable extends ListView {
 			public void onScrollStateChanged(AbsListView arg0, int arg1) {
 				//状态停止, 如果listview显示最后一条, 加载更多数据提示
 				//是否最后一条数据显示
+				System.out.println("getLastVisiblePosition(),getAdapter().getCount() = " + getLastVisiblePosition() + ", " + getAdapter().getCount());
+				System.out.println("isLoadingMore = " + isLoadingMore);
 				if(getLastVisiblePosition() == getAdapter().getCount() - 1 && !isLoadingMore){
+					
+					System.out.println("拉到最下面, 开始获取更多数据");
 					//显示最后一条数据
 					tailView.setPadding(0, 0, 0, 0);
 					setSelection(getAdapter().getCount());		//什么作用???
@@ -296,7 +300,7 @@ public class ListViewRefreshable extends ListView {
 		if(isLoadingMore){
 			//加载更多
 			isLoadingMore = false;
-			tailView.setPadding(0, 0, 0, heightOfTail);
+			tailView.setPadding(0, 0, 0, -heightOfTail);
 		}else{
 			//下拉刷新
 			System.out.println("refreshStateFinish 刷新结束");

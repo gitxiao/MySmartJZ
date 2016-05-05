@@ -170,6 +170,7 @@ public class VPINewsChildPage {
 
 			@Override
 			public void loadingMore() {
+				isRefresh = true;
 				getMoreData();
 			}
 			
@@ -177,6 +178,7 @@ public class VPINewsChildPage {
 			 * 加载更多
 			 */
 			private void getMoreData() {
+				System.out.println("上拉加载更多数据");
 				if(TextUtils.isEmpty(loadingMoreUrl)){
 					Toast.makeText(mainActivity, "没有更多数据", 1).show();
 					listViewNews.refreshStateFinish();
@@ -241,9 +243,17 @@ public class VPINewsChildPage {
 					}else{
 						//第一次取数据或刷新数据
 						System.out.println("第一次取或刷新数据成功");
-						if(isRefresh){
-							listViewNews.refreshStateFinish();	
-						}
+					}
+					if(isRefresh){
+						listViewNews.refreshStateFinish();	
+					}
+					
+					if(!TextUtils.isEmpty(newsDetailData.data.more)){
+						loadingMoreUrl = MyConstants.URL_SERVER + newsDetailData.data.more;
+						System.out.println("getHttpData 加载更多数据的url = " + loadingMoreUrl);
+					}else{
+						loadingMoreUrl = null;
+						System.out.println("getHttpData 本次刷新后没有更多数据");
 					}
 					Toast.makeText(mainActivity, "获取网络数据成功", 1).show();
 				}
@@ -273,10 +283,7 @@ public class VPINewsChildPage {
 	 */
 	private NewsDetailData parseJsonData(String jsonData){
 		newsDetailData = gson.fromJson(jsonData, NewsDetailData.class);
-		if(!TextUtils.isEmpty(newsDetailData.data.more)){
-			loadingMoreUrl = MyConstants.URL_SERVER + newsDetailData.data.more;
-			System.out.println("加载更多数据的url = " + loadingMoreUrl);
-		}
+		
 		return newsDetailData;
 	}
 	
