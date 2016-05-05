@@ -13,6 +13,7 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.RotateAnimation;
+import android.widget.AbsListView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
@@ -29,6 +30,7 @@ import com.example.test.R;
  */
 public class ListViewRefreshable extends ListView {
 
+	private boolean isEnablePullRefresh;
 	
 	private View tailView;
 	private LinearLayout headView;
@@ -52,7 +54,10 @@ public class ListViewRefreshable extends ListView {
 	private ProgressBar pbRefresh;
 	private RotateAnimation upRAnimation;
 	private RotateAnimation downRAnimation;
-	private OnRefreshDataListener listener;
+	
+	private OnRefreshDataListener refreshListener;
+
+	private boolean isLoadingMore;
 	
 	/**
 	 * @param context
@@ -63,6 +68,36 @@ public class ListViewRefreshable extends ListView {
 		super(context, attrs, defStyle);
 		initView();
 		initAnimation();
+		initEvent();
+	}
+
+	/**
+	 * 
+	 */
+	private void initEvent() {
+		this.setOnScrollListener(new OnScrollListener() {
+			
+			@Override
+			public void onScrollStateChanged(AbsListView arg0, int arg1) {
+				//状态停止, 如果listview显示最后一条, 加载更多数据提示
+				//是否最后一条数据显示
+				if(getLastVisiblePosition() == getAdapter().getCount() - 1 && !isLoadingMore){
+					//显示最后一条数据
+					tailView.setPadding(0, 0, 0, 0);
+					setSelection(getAdapter().getCount());		//什么作用???
+					
+					if(refreshListener != null){
+						isLoadingMore = true;
+						refreshListener.loadingMore();
+					}
+				}
+			}
+			
+			@Override
+			public void onScroll(AbsListView arg0, int arg1, int arg2, int arg3) {
+				
+			}
+		});
 	}
 
 	/**
@@ -85,13 +120,28 @@ public class ListViewRefreshable extends ListView {
 		initTail();
 	}
 	
+	
+	/**
+	 * 自己选择是否使用下拉刷新功能 
+	 */
+	public void setIsRefreshAble(boolean isRefreshable){
+		isEnablePullRefresh = isRefreshable;
+	}
+	
+	
 	/**
 	 * 特殊需求
 	 * 加载轮播图view
 	 */
-	public void myAddHeadView(View view){
-		lunbotu = view;
-		headContainer.addView(view);
+	public void addHeaderView(View view){
+		//判断, 如果使用下拉刷新,把布局头加到下拉刷新的容器中,否则加载到原生ListView中
+		if(isEnablePullRefresh){
+			lunbotu = view;
+			headContainer.addView(view);
+		}else{
+			//调用父类的函数, 原生功能
+			super.addHeaderView(view);
+		}
 	}
 	
 	/**
@@ -173,6 +223,8 @@ public class ListViewRefreshable extends ListView {
 		//自己的事件处理, 用来实现下拉刷新, 上拉刷新
 		//需要屏蔽父类的touch事件
 		//当下拉拖动, 并且显示listview中第一条view的时候
+		
+		
 		to: switch(ev.getAction()){
 		case MotionEvent.ACTION_DOWN:
 			downY = ev.getY();
@@ -187,8 +239,8 @@ public class ListViewRefreshable extends ListView {
 				headView.setPadding(0, 0, 0, 0);
 				currentState = STATE_REFRESHING;
 				refreshRefreshState();	//刷新界面
-				if(this.listener != null){
-					this.listener.refreshData();
+				if(this.refreshListener != null){
+					this.refreshListener.refreshData();
 				}
 			}
 			break;
@@ -197,7 +249,14 @@ public class ListViewRefreshable extends ListView {
 			moveY = -1;
 			break;
 		case MotionEvent.ACTION_MOVE:
-			
+			if(!isEnablePullRefresh){
+				//判断是否激活了下拉刷新
+				break;
+			}
+			if(currentState == STATE_REFRESHING){
+				//判断是否处于正在刷新的状态
+				break;
+			}
 			if(!isLunboFullShow()){
 				//轮播没有完全显示
 				break;
@@ -227,7 +286,6 @@ public class ListViewRefreshable extends ListView {
 			break;
 		}
 		
-		System.out.println("由listview处理事件");
 		return super.onTouchEvent(ev);
 	}
 
@@ -235,14 +293,21 @@ public class ListViewRefreshable extends ListView {
 	 * 刷新数据成功
 	 */
 	public void refreshStateFinish(){
-		//下拉刷新
-		System.out.println("refreshStateFinish 刷新结束");
-		//改变页面状态
-		textViewState.setText("下拉刷新");
-		ivArrow.setVisibility(View.VISIBLE);
-		pbRefresh.setVisibility(View.INVISIBLE);
-		textViewTime.setText(getCurrentFromDate());
-		headView.setPadding(0, -heightOfHead, 0, 0);
+		if(isLoadingMore){
+			//加载更多
+			isLoadingMore = false;
+			tailView.setPadding(0, 0, 0, heightOfTail);
+		}else{
+			//下拉刷新
+			System.out.println("refreshStateFinish 刷新结束");
+			//改变页面状态
+			currentState = STATE_PULLDOWN;
+			textViewState.setText("下拉刷新");
+			ivArrow.setVisibility(View.VISIBLE);
+			pbRefresh.setVisibility(View.INVISIBLE);
+			textViewTime.setText(getCurrentFromDate());
+			headView.setPadding(0, -heightOfHead, 0, 0);
+		}
 	}
 	
 	/**
@@ -305,10 +370,11 @@ public class ListViewRefreshable extends ListView {
 	 */
 	public interface OnRefreshDataListener{
 		void refreshData();
+		void loadingMore();
 	}
 	
 	public void setOnRefreshDataListener(OnRefreshDataListener listener){
-		this.listener = listener;
+		this.refreshListener = listener;
 	}
 }
 

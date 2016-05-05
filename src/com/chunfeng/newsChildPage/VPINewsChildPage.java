@@ -9,6 +9,7 @@ import android.os.Handler;
 import android.os.SystemClock;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager.OnPageChangeListener;
+import android.text.TextUtils;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -50,6 +51,10 @@ public class VPINewsChildPage {
 
 	private View layoutNewsContentMain;
 	private MainActivity mainActivity;
+	
+	/**
+	 * 从activity传递过来的数据参数,内容主要为新闻子标题的相关数据
+	 */
 	private NewsBasicData.NewsType.NewsTag newsTag;
 	
 	private Gson gson;
@@ -76,6 +81,7 @@ public class VPINewsChildPage {
 	private LunboTask lunboTask = new LunboTask();
 	private int delayTime = 2000;
 	
+	private String loadingMoreUrl;		//加载更多数据的url
 	
 	private NewsDetailData newsDetailData;
 	private List<NewsDetailData.Detail.News> listNews = new ArrayList<NewsDetailData.Detail.News>();
@@ -116,8 +122,9 @@ public class VPINewsChildPage {
 		//listView.轮播图head
 		View lunboPicView = View.inflate(mainActivity, R.layout.rl_lunbo_pic, null);
 		ViewUtils.inject(this, lunboPicView);
-//		listViewNews.addHeaderView(lunboPicView);
-		listViewNews.myAddHeadView(lunboPicView);
+
+		listViewNews.setIsRefreshAble(true);		//设为true后为添加刷新头,否则添加普通头
+		listViewNews.addHeaderView(lunboPicView);
 		return view;
 	}
 
@@ -145,7 +152,7 @@ public class VPINewsChildPage {
 			System.out.println("还没有缓存数据" + MyConstants.NEWS_DETAIL_DATA);
 		}
 		
-		getHttpData();
+		getHttpData(MyConstants.URL_SERVER + newsTag.url);
 	}
 	
 	private boolean isRefresh;
@@ -158,12 +165,32 @@ public class VPINewsChildPage {
 			@Override
 			public void refreshData() {
 				isRefresh = true;
-				getHttpData();
+				getHttpData(MyConstants.URL_SERVER + newsTag.url);
 			}
+
+			@Override
+			public void loadingMore() {
+				getMoreData();
+			}
+			
+			/**
+			 * 加载更多
+			 */
+			private void getMoreData() {
+				if(TextUtils.isEmpty(loadingMoreUrl)){
+					Toast.makeText(mainActivity, "没有更多数据", 1).show();
+					listViewNews.refreshStateFinish();
+				}else{
+					getHttpData(loadingMoreUrl);
+				}
+			}
+
 		});
 		vp_lunbo.setOnPageChangeListener(new LunBoPageChangeListener());
 	}
 	
+	
+
 	/**
 	 * 处理数据并显示
 	 * @param detailData
@@ -191,24 +218,32 @@ public class VPINewsChildPage {
 	 * @param <T>
 	 */
 	@SuppressLint("ShowToast")
-	private <T> void getHttpData() {
-		final String url = newsTag.url;
+	private <T> void getHttpData(final String url) {
 		HttpUtils httpUtils = new HttpUtils();
 		
+		System.out.println("访问网络url = " + url);
 		try {
-			httpUtils.send(HttpMethod.GET, MyConstants.URL_SERVER + url, new RequestCallBack<T>(){
+			httpUtils.send(HttpMethod.GET, url, new RequestCallBack<T>(){
 				
 				@Override
 				public void onSuccess(ResponseInfo<T> responseInfo) {
-//					SystemClock.sleep(1000);
+					SystemClock.sleep(2000);
 					System.out.println("网络访问成功");				
 					NewsDetailData detailData = parseJsonData((String)(responseInfo.result));
 					SPTools.setString(mainActivity, url, (String)(responseInfo.result));
-					operateData(detailData);
 					
+					operateData(detailData);
 					//刷新数据后通知listView进行状态改变
-					if(isRefresh){
-						listViewNews.refreshStateFinish();	
+					if(url.equals(loadingMoreUrl)){
+						System.out.println("加载更多数据成功");
+						listNews.addAll(newsDetailData.data.news);
+						listNewsAdapter.notifyDataSetChanged();
+					}else{
+						//第一次取数据或刷新数据
+						System.out.println("第一次取或刷新数据成功");
+						if(isRefresh){
+							listViewNews.refreshStateFinish();	
+						}
 					}
 					Toast.makeText(mainActivity, "获取网络数据成功", 1).show();
 				}
@@ -230,13 +265,18 @@ public class VPINewsChildPage {
 		}
 	}
 	
+	
+	
 	/**
 	 * 解析json数据,
 	 * @param jsonData
 	 */
 	private NewsDetailData parseJsonData(String jsonData){
 		newsDetailData = gson.fromJson(jsonData, NewsDetailData.class);
-		
+		if(!TextUtils.isEmpty(newsDetailData.data.more)){
+			loadingMoreUrl = MyConstants.URL_SERVER + newsDetailData.data.more;
+			System.out.println("加载更多数据的url = " + loadingMoreUrl);
+		}
 		return newsDetailData;
 	}
 	
