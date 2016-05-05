@@ -87,6 +87,7 @@ public class VPINewsChildPage {
 	private List<NewsDetailData.Detail.News> listNews = new ArrayList<NewsDetailData.Detail.News>();
 	private ListNewsAdapter listNewsAdapter;
 	
+	
 //	final Handler handler = new Handler(){
 //		public void handleMessage(android.os.Message msg){
 //			//主线程中执行
@@ -180,7 +181,7 @@ public class VPINewsChildPage {
 			private void getMoreData() {
 				System.out.println("上拉加载更多数据");
 				if(TextUtils.isEmpty(loadingMoreUrl)){
-					Toast.makeText(mainActivity, "没有更多数据", 1).show();
+					Toast.makeText(mainActivity, "没有更多数据", Toast.LENGTH_SHORT).show();
 					listViewNews.refreshStateFinish();
 				}else{
 					getHttpData(loadingMoreUrl);
@@ -255,7 +256,7 @@ public class VPINewsChildPage {
 						loadingMoreUrl = null;
 						System.out.println("getHttpData 本次刷新后没有更多数据");
 					}
-					Toast.makeText(mainActivity, "获取网络数据成功", 1).show();
+					Toast.makeText(mainActivity, "获取网络数据成功", Toast.LENGTH_SHORT).show();
 				}
 				
 				@Override
@@ -267,7 +268,7 @@ public class VPINewsChildPage {
 					if(isRefresh){
 						listViewNews.refreshStateFinish();	
 					}
-					Toast.makeText(mainActivity, "获取网络数据失败", 1).show();
+					Toast.makeText(mainActivity, "获取网络数据失败", Toast.LENGTH_SHORT).show();
 				}
 			});
 		} catch (Exception e) {
