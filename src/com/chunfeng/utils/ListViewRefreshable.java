@@ -132,6 +132,18 @@ public class ListViewRefreshable extends ListView {
 		isEnablePullRefresh = isRefreshable;
 	}
 	
+	/**
+	 * 自己选择是否使用下拉刷新功能 
+	 */
+	public void setIsEnableRefreshHead(boolean isRefreshable){
+		isEnablePullRefresh = isRefreshable;
+	}
+	/**
+	 * 自己选择是否使用下拉刷新功能 
+	 */
+	public void setIsEnableRefreshMore(boolean isRefreshable){
+		isEnablePullRefresh = isRefreshable;
+	}
 	
 	/**
 	 * 特殊需求

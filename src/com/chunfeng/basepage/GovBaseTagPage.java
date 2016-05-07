@@ -3,6 +3,8 @@
  */
 package com.chunfeng.basepage;
 
+import android.content.res.ColorStateList;
+import android.graphics.Color;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.TextView;
@@ -31,7 +33,7 @@ public class GovBaseTagPage extends BaseTagPage{
 		
 		TextView tv = new TextView(activity);
 		tv.setText(R.string.mainBtn4);
-//		tv.setTextColor(""#000000");
+		tv.setTextColor(Color.RED);
 		tv.setTextSize(50);
 		tv.setGravity(Gravity.CENTER);
 		flLayout.addView(tv);
